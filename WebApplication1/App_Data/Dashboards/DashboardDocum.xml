@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="Documents statistics" Alignment="Left" />
+  <DataSources>
+    <SqlDataSource Name="CustomSqlQuery" ComponentName="DataSource1">
+      <Connection Name="msSqlConnection" FromAppConfig="true" />
+      <Query Type="CustomSqlQuery" Name="CustomSqlQuery">
+        <Sql>SELECT 
+  dt.naziv, 
+  d.datum,
+  au.name
+  FROM pn.Dokument d INNER JOIN pn.DokumentTip dt ON d.id_dokument_tip = dt.id
+  INNER JOIN dit.AppUser au ON d.id_updated_by = au.id</Sql>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Chart ComponentName="chartDashboardItem1" Name="Documents by years" DataSource="DataSource1" DataMember="CustomSqlQuery">
+      <DataItems>
+        <Measure DataMember="naziv" SummaryType="Count" DefaultId="DataItem5" />
+        <Measure DataMember="naziv" SummaryType="Count" DefaultId="DataItem7" />
+        <Dimension DataMember="datum" DateTimeGroupInterval="DayMonthYear" DefaultId="DataItem8" />
+        <Dimension DataMember="naziv" DefaultId="DataItem9" />
+        <Measure DataMember="naziv" SummaryType="Count" DefaultId="DataItem6" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem9" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem8" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY Title="Doucuments count" />
+          <Series>
+            <Simple SeriesType="StackedLine">
+              <Value DefaultId="DataItem6" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+      <ChartLegend OutsidePosition="TopLeftHorizontal" />
+      <AxisX TitleVisible="true" Title="Years" EnableZooming="true" LimitVisiblePoints="true" VisiblePointsCount="100" />
+    </Chart>
+    <Chart ComponentName="chartDashboardItem2" Name="Documents by Users" DataSource="DataSource1" DataMember="CustomSqlQuery">
+      <DataItems>
+        <Dimension DataMember="name" DefaultId="DataItem1" />
+        <Measure DataMember="naziv" SummaryType="Count" DefaultId="DataItem0" />
+        <Dimension DataMember="naziv" DefaultId="DataItem2" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem2" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem1" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY Title="Documents count" />
+          <Series>
+            <Simple SeriesType="StackedBar">
+              <Value DefaultId="DataItem0" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+      <ChartLegend OutsidePosition="TopRightVertical" />
+      <AxisX EnableZooming="true" LimitVisiblePoints="true" VisiblePointsCount="40" />
+    </Chart>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Orientation="Vertical" Weight="100">
+      <LayoutGroup Weight="105.1948051948052">
+        <LayoutItem DashboardItem="chartDashboardItem1" Weight="100" />
+      </LayoutGroup>
+      <LayoutItem DashboardItem="chartDashboardItem2" Weight="94.805194805194787" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>
