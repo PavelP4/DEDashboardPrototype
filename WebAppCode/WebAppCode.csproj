@@ -199,6 +199,11 @@
     <Compile Include="Controls\DashboardDocumControl.ascx.designer.cs">
       <DependentUpon>DashboardDocumControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Dashboards\BaseDashboard.cs" />
+    <Compile Include="Dashboards\DashboardContainer.cs" />
+    <Compile Include="Dashboards\FirstDashboard.cs" />
+    <Compile Include="Dashboards\ICustomDashboard.cs" />
+    <Compile Include="Dashboards\IDashboardContainer.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
