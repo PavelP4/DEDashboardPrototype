@@ -26,9 +26,9 @@ namespace WebAppCode.Dashboards
             Dashboard.DataSources.Add(DataSource);
             Dashboard.Title.Text = "First Dashboard";
 
-            ChartDashboardItem chart1 = CreateChartDocumentsByDays(DataSource, SqlQuery1);
+            ChartDashboardItem chart1 = CreateChartDocumentsByDays(DataSource, CustomSqlQueryName1);
             Dashboard.Items.Add(chart1);
-            ChartDashboardItem chart2 = CreateChartDocumentsByNames(DataSource, SqlQuery1);
+            ChartDashboardItem chart2 = CreateChartDocumentsByNames(DataSource, CustomSqlQueryName1);
             Dashboard.Items.Add(chart2);
 
             DashboardLayoutItem chart1LayoutItem = new DashboardLayoutItem(chart1, 100);

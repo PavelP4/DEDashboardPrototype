@@ -294,9 +294,9 @@ namespace WebAppCode.Controls
             if (!((ASPxDashboard)sender).IsCallback)
             {
                 Container = new DashboardContainer(ASPxDashboardDocum);
-                Container.RegisterDashboard(Dashboard1Name, new FirstDashboard(Container));
-
                 Container.Configure();
+
+                Container.RegisterDashboard(Dashboard1Name, new FirstDashboard(Container));
             }
         }
 

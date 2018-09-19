@@ -14,8 +14,8 @@ namespace WebAppCode.Dashboards
 
         private readonly Dashboard _dashboard;
         private readonly IDashboardContainer _dashboardContainer;
-        private readonly DashboardSqlDataSource _dataSource;
 
+        private DashboardSqlDataSource _dataSource;
         private readonly IDictionary<string, string> _sqlQueries;
 
         private bool IsConfigured = false;
@@ -49,16 +49,12 @@ namespace WebAppCode.Dashboards
         {
             _dashboard = new Dashboard();
             _dashboardContainer = dashboardContainer;
-            _dataSource = new DashboardSqlDataSource(DashboardId + "_DataSource", 
-                DashboardConnectionStringsProvider.MsSqlConnectionName);
-
             _sqlQueries = new Dictionary<string, string>();
         }
 
-        protected void RegisterDashboard(string name)
+        protected void RegisterDashboard(string dashboardId)
         {
-            _dashboardContainer.RegisterDashboard(name, _dashboard);
-            _dashboardId = name;
+            _dashboardContainer.RegisterDashboard(dashboardId, _dashboard);
         }
 
         protected void AddQueryToDataSource(string queryName, string querySql)
@@ -66,9 +62,11 @@ namespace WebAppCode.Dashboards
             _sqlQueries.Add(queryName, querySql);
         }
 
-        protected void RegisterDataSource()
+        protected void RegisterDataSource(string dashboardId)
         {
-            _dataSource.Queries.Clear();
+            _dataSource = new DashboardSqlDataSource(dashboardId + "_DataSource",
+                DashboardConnectionStringsProvider.MsSqlConnectionName);
+          
             _dataSource.Queries.AddRange(_sqlQueries.Select(x => new CustomSqlQuery(x.Key, x.Value)));
             _dashboardContainer.RegisterDataSource(_dataSource.Name, _dataSource);
         }
@@ -78,13 +76,14 @@ namespace WebAppCode.Dashboards
             if (IsConfigured) return;
 
             ConfigureDataSourceQueries();
-            RegisterDataSource();
+            RegisterDataSource(dashboardId);
 
             Configure();
 
             RegisterDashboard(dashboardId);
 
             IsConfigured = true;
+            _dashboardId = dashboardId;
         }
 
         protected abstract void ConfigureDataSourceQueries();
