@@ -1,12 +1,9 @@
-﻿var chartDocumentsByDaysComponentName;
-var chartDocumentsByNamesComponentName;
-var chartDocumentsByNamesComponentName2;
+﻿
 
-//var openDashboardExtension;
 
 function CustomizeWidgets(s, e) {
 
-    if (e.ItemName === chartDocumentsByDaysComponentName) {
+    if (e.ItemName === s.cpChart1Name) {
 
         var chart1 = e.GetWidget();
 
@@ -24,67 +21,56 @@ function CustomizeWidgets(s, e) {
         
         chart1.element().click(function (e) {
 
-            //var $chart2 = $("div[data-layout-item-name=" + chartDocumentsByNamesComponentName + "]");
-            //if ($chart2.length === 0) return;
-
-            //if ($chart2.is(":visible")) {
-            //    $chart2.hide();
-            //} else {
-            //    $chart2.show();
-            //}
-            //CallbackPanel.PerformCallback(2);
-
-            DashboardDocum.LoadDashboard("Dashboard2");
+            s.LoadDashboard(s.cpDashboard2Name);
         });
     }
     else
-    if (e.ItemName === chartDocumentsByNamesComponentName) {
+        if (e.ItemName === s.cpChart2Name) {
 
         var chart2 = e.GetWidget();
 
         chart2.element().click(function (e) {
-
-            //var $chart2 = $(e.target).parent();
-            //$chart2.hide();
+            
         });
     }
     else
-    if (e.ItemName === chartDocumentsByNamesComponentName2) {
+    if (e.ItemName === s.cpChart21Name) {
 
         var chart21 = e.GetWidget();
 
         chart21.element().click(function (e) {
 
-            DashboardDocum.LoadDashboard("Dashboard1");
+            OpenDashboard(s.cpDashboard1Name);
         });
     }
 }
 
 function UnsubscribeFromEvents(s, e) {
-    if (e.ItemName === chartDocumentsByDaysComponentName) {
+    if (e.ItemName === s.cpChart1Name) {
         var chart1 = e.GetWidget();
         chart1.option('argumentAxis.label.customizeText', undefined);
     }
-    if (e.ItemName === chartDocumentsByNamesComponentName) {
-        //var chart2 = args.GetWidget();
-        
+    if (e.ItemName === s.cpChart2Name) {
     }
 }
 
-//function ItemClickHandler(args) {
-//    console.log("ItemClickHandler", args);
-//}
-
-function ASPxCallbackPanel_EndCallback() {
-    //openDashboard("Dashboard2");
+function OnInitDashboard(s, e) {
+    OpenDashboard(s.cpDashboard1Name);
 }
 
-function InitDashboard(s, e) {
-    //openDashboardExtension = s.GetDashboardControl().findExtension("dxdde-open");
-    DashboardDocum.LoadDashboard("Dashboard1");
+function OnItemWidgetCreated(s, e) {
+    CustomizeWidgets(s, e);
 }
 
-function openDashboard(id) {
+function OnItemWidgetUpdated(s, e) {
+    CustomizeWidgets(s, e);
+}
+
+function OnItemWidgetUpdating(s, e) {
+    UnsubscribeFromEvents(s, e);
+}
+
+function OpenDashboard(id) {
 
     DashboardDocum.LoadDashboard(id);
 }

@@ -5,6 +5,7 @@ using System.Xml.Linq;
 using DevExpress.DashboardCommon;
 using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.Sql;
+using DevExpress.Web;
 using WebAppCode.Providers;
 
 
@@ -15,13 +16,13 @@ namespace WebAppCode.Controls
         public const string SqlQuery1 = "SELECT dt.naziv, d.datum, au.name FROM pn.Dokument d INNER JOIN pn.DokumentTip dt ON d.id_dokument_tip = dt.id INNER JOIN dit.AppUser au ON d.id_updated_by = au.id WHERE d.datum < '20080101'";
         public const string CustomSqlQueryName1 = "CustomSqlQuery1";
 
+        public const string Dashboard1Name = "Dashboard1";
+        public const string Dashboard2Name = "Dashboard2";
+
         public const string ChartDocumentsByDaysComponentName = "chartDashboardItem_DocumentsByDays";
         public const string ChartDocumentsByNamesComponentName = "chartDashboardItem_DocumentsByNames";
         public const string ChartDocumentsByNamesComponentName2 = "chartDashboardItem_DocumentsByNames2";
-
-        //private DashboardSqlDataSource _dataSource1;
-        //private DashboardInMemoryStorage _dashboardStorage;
-
+        
         private DashboardInMemoryStorage DashboardStorage
         {
             get { return (DashboardInMemoryStorage)Session["ВashboardStorage"]; }
@@ -36,8 +37,9 @@ namespace WebAppCode.Controls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
         }
+
+        #region .Control settings.
 
         public string Width
         {
@@ -51,17 +53,17 @@ namespace WebAppCode.Controls
             set { ASPxDashboardDocum.Height = new Unit(value); }
         }
 
+        #endregion
+
+        #region .Container configuration.
+        
         private void ConfigureDashboardContainer()
         {
-            //SetDashboardConnectionStringsProvider();
-
             ASPxDashboardDocum.EnableCustomSql = true;
             ASPxDashboardDocum.AllowExecutingCustomSql = true;
             ASPxDashboardDocum.AllowCreateNewDashboard = false;
             ASPxDashboardDocum.AllowOpenDashboard = false;
             ASPxDashboardDocum.LoadDefaultDashboard = false;
-
-            //ConfigureDashboardStorages();
         }
 
         private void SetDashboardConnectionStringsProvider()
@@ -72,32 +74,32 @@ namespace WebAppCode.Controls
 
         private void ConfigureDashboardStorages()
         {
-            //MsSqlConnectionParameters sqlServerParams =
-            //    new MsSqlConnectionParameters(ServerName, DatabaseName, UserName, Password, MsSqlAuthorizationType.SqlServer);
-            //DashboardSqlDataSource sqlDataSource =
-            //    new DashboardSqlDataSource("DataSource1", sqlServerParams);
-            DashboardSqlDataSource dataSource1 =
-                new DashboardSqlDataSource("DataSource1", DashboardConnectionStringsProvider.MsSqlConnectionName);
-            CustomSqlQuery customSqlQuery = new CustomSqlQuery(CustomSqlQueryName1, SqlQuery1);
-            dataSource1.Queries.Add(customSqlQuery);
-            //sqlDataSource.Fill();
-
             DataSourceInMemoryStorage dataSourceStorage = new DataSourceInMemoryStorage();
-            dataSourceStorage.RegisterDataSource(dataSource1.Name, dataSource1.SaveToXml());
+            ConfigureDataSources(dataSourceStorage);
             ASPxDashboardDocum.SetDataSourceStorage(dataSourceStorage);
 
             DashboardInMemoryStorage dashboardStorage = new DashboardInMemoryStorage();
             ASPxDashboardDocum.SetDashboardStorage(dashboardStorage);
 
-            //CreateInitialDashboard(dashboardStorage, dataSource1);
-            //CreateSecondDashboard(dashboardStorage, dataSource1);
-
-            //ASPxDashboardDocum.InitialDashboardId = ((IDashboardStorage)dashboardStorage)
-            //    .GetAvailableDashboardsInfo().First().ID;
-
             DashboardStorage = dashboardStorage;
+        }
+
+        private void ConfigureDataSources(DataSourceInMemoryStorage dataSourceStorage)
+        {
+            DashboardSqlDataSource dataSource1 =
+                new DashboardSqlDataSource("DataSource1", DashboardConnectionStringsProvider.MsSqlConnectionName);
+
+            CustomSqlQuery customSqlQuery = new CustomSqlQuery(CustomSqlQueryName1, SqlQuery1);
+            dataSource1.Queries.Add(customSqlQuery);
+
+            dataSourceStorage.RegisterDataSource(dataSource1.Name, dataSource1.SaveToXml());
+
             DashboardDataSource = dataSource1;
         }
+
+        #endregion
+
+        #region .Create dashboards.
 
         private void SetInitialDashboard()
         {
@@ -107,21 +109,17 @@ namespace WebAppCode.Controls
                 .GetAvailableDashboardsInfo().First().ID;
         }
 
-        /// <summary>
-        /// Code creation approach
-        /// </summary>
         private void CreateInitialDashboard(DashboardInMemoryStorage storage, DashboardSqlDataSource dataSource)
         {
             Dashboard dashboard = new Dashboard();
 
             ConfigureInitialDashboard(dashboard, dataSource);
           
-            storage.RegisterDashboard("Dashboard1", dashboard.SaveToXDocument());
+            storage.RegisterDashboard(Dashboard1Name, dashboard.SaveToXDocument());
         }
 
         private void ConfigureInitialDashboard(Dashboard dashboard, DashboardSqlDataSource dataSource)
         {
-            //dashboard.LoadFromXml(HttpContext.Current.Server.MapPath(@"~/App_Data/Dashboards/DashboardDocum.xml"));
             dashboard.DataSources.Add(dataSource);
             dashboard.Title.Text = "Dashboard by code";
 
@@ -140,6 +138,37 @@ namespace WebAppCode.Controls
                 group1,chart2LayoutItem);
             dashboard.LayoutRoot = rootLayout;
         }
+
+        private void CreateSecondDashboard(DashboardInMemoryStorage storage, DashboardSqlDataSource dataSource)
+        {
+            Dashboard dashboard = new Dashboard();
+            dashboard.EnableAutomaticUpdates = true;
+
+            ConfigureSecondDashboard(dashboard, dataSource);
+
+            storage.RegisterDashboard(Dashboard2Name, dashboard.SaveToXDocument());
+            //((IDashboardStorage)DashboardStorage).SaveDashboard(Dashboard2Name, dashboard.SaveToXDocument());
+        }
+        private void ConfigureSecondDashboard(Dashboard dashboard, DashboardSqlDataSource dataSource)
+        {
+            dashboard.DataSources.Add(dataSource);
+            dashboard.Title.Text = "Second Dashboard by code";
+
+            ChartDashboardItem chart2 = CreateChartDocumentsByNames2(dataSource);
+            dashboard.Items.Add(chart2);
+
+            DashboardLayoutItem chart2LayoutItem = new DashboardLayoutItem(chart2, 100);
+
+            DashboardLayoutGroup group1 =
+                new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Horizontal, 100, chart2LayoutItem);
+
+            DashboardLayoutGroup rootLayout = new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Vertical, 1,
+                group1);
+            dashboard.LayoutRoot = rootLayout;
+        }
+        #endregion
+
+        #region .Create widgets.
 
         private ChartDashboardItem CreateChartDocumentsByDays(DashboardSqlDataSource dataSource)
         {
@@ -204,6 +233,7 @@ namespace WebAppCode.Controls
 
             return chart;
         }
+
         private ChartDashboardItem CreateChartDocumentsByNames2(DashboardSqlDataSource dataSource)
         {
             ChartDashboardItem chart = new ChartDashboardItem();
@@ -234,67 +264,53 @@ namespace WebAppCode.Controls
 
             return chart;
         }
+        #endregion
 
-        private void CreateSecondDashboard(DashboardInMemoryStorage storage, DashboardSqlDataSource dataSource)
+        #region .Dashboard events.
+
+        protected void ASPxDashboardDocum_OnInit(object sender, EventArgs e)
         {
-            Dashboard dashboard = new Dashboard();
-            dashboard.EnableAutomaticUpdates = true;
-            
-            ConfigureSecondDashboard(dashboard, dataSource);
+            SetDashboardConnectionStringsProvider();
+            ConfigureDashboardContainer();
 
-            storage.RegisterDashboard("Dashboard2", dashboard.SaveToXDocument());
-            ((IDashboardStorage)DashboardStorage).SaveDashboard("Dashboard2", dashboard.SaveToXDocument());
+            if (!((ASPxDashboard)sender).IsCallback)
+            {
+                ConfigureDashboardStorages();
+            }
         }
-        private void ConfigureSecondDashboard(Dashboard dashboard, DashboardSqlDataSource dataSource)
-        {
-            dashboard.DataSources.Add(dataSource);
-            dashboard.Title.Text = "Second Dashboard by code";
-           
-            ChartDashboardItem chart2 = CreateChartDocumentsByNames2(dataSource);
-            dashboard.Items.Add(chart2);
-
-            DashboardLayoutItem chart2LayoutItem = new DashboardLayoutItem(chart2, 100);
-
-            DashboardLayoutGroup group1 =
-                new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Horizontal, 100, chart2LayoutItem);
-
-            DashboardLayoutGroup rootLayout = new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Vertical, 1,
-                group1);
-            dashboard.LayoutRoot = rootLayout;
-        }
-
-        //protected void ASPxCallbackPanel_Callback(object sender, CallbackEventArgsBase e)
-        //{
-        //    var param = e.Parameter;
-        //    var dashboardId = "Dashboard" + param;
-
-        //    if (dashboardId == "Dashboard2")
-        //    {
-        //        if (!IsDashboardCreated(dashboardId))
-        //        {
-        //            CreateSecondDashboard(_dashboardStorage, _dataSource1);
-        //        }
-
-        //        ASPxDashboardDocum.DashboardId = dashboardId;
-        //    }
-        //}
 
         protected void ASPxDashboardDocum_DashboardLoading(object sender, DashboardLoadingWebEventArgs e)
         {
             string dashboardId = e.DashboardId;
 
-            if (dashboardId == "Dashboard1" && !IsDashboardCreated(dashboardId))
+            if (dashboardId == Dashboard1Name && !IsDashboardCreated(dashboardId))
             {
                 CreateInitialDashboard(DashboardStorage, DashboardDataSource);
             }
             else
-            if (dashboardId == "Dashboard2" && !IsDashboardCreated(dashboardId))
+            if (dashboardId == Dashboard2Name && !IsDashboardCreated(dashboardId))
             {
                 CreateSecondDashboard(DashboardStorage, DashboardDataSource);
             }
 
             e.DashboardXml = LoadDashboard(dashboardId);
         }
+
+        protected void ASPxDashboardDocum_OnCustomJSProperties(object sender, CustomJSPropertiesEventArgs e)
+        {
+            ASPxDashboard s = (ASPxDashboard) sender;
+
+            s.JSProperties.Add("cpDashboard1Name", Dashboard1Name);
+            s.JSProperties.Add("cpDashboard2Name", Dashboard2Name);
+
+            s.JSProperties.Add("cpChart1Name", ChartDocumentsByDaysComponentName);
+            s.JSProperties.Add("cpChart2Name", ChartDocumentsByNamesComponentName);
+            s.JSProperties.Add("cpChart21Name", ChartDocumentsByNamesComponentName2);
+        }
+
+        #endregion
+
+        #region .Service functions.
 
         private bool IsDashboardCreated(string dashboardId)
         {
@@ -308,25 +324,7 @@ namespace WebAppCode.Controls
             return ((IDashboardStorage)DashboardStorage).LoadDashboard(dashboardId);
         }
 
-
-        protected void ASPxDashboardDocum_OnLoad(object sender, EventArgs e)
-        {
-        }
-
-        protected void ASPxDashboardDocum_OnInit(object sender, EventArgs e)
-        {
-            SetDashboardConnectionStringsProvider();
-            ConfigureDashboardContainer();
-
-            if (!((ASPxDashboard)sender).IsCallback)
-            {
-                ConfigureDashboardStorages();
-            }
-        }
-
-        protected void ASPxCallbackPanel_OnInit(object sender, EventArgs e)
-        {
-            //ConfigureDashboardContainer();
-        }
+        #endregion
+        
     }
 }
