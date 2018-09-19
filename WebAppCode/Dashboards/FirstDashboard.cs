@@ -23,7 +23,6 @@ namespace WebAppCode.Dashboards
 
         protected override void Configure()
         {
-            Dashboard.DataSources.Add(DataSource);
             Dashboard.Title.Text = "First Dashboard";
 
             ChartDashboardItem chart1 = CreateChartDocumentsByDays(DataSource, CustomSqlQueryName1);

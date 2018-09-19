@@ -22,6 +22,9 @@ namespace WebAppCode.Dashboards
         public DashboardContainer(ASPxDashboard aspxDashboard)
         {
             _aspxDashboard = aspxDashboard;
+
+            SetDashboardConnectionStringsProvider();
+
             _dataSourceStorage = new DataSourceInMemoryStorage();
             _dashboardStorage = new DashboardInMemoryStorage();
 

@@ -69,6 +69,8 @@ namespace WebAppCode.Dashboards
           
             _dataSource.Queries.AddRange(_sqlQueries.Select(x => new CustomSqlQuery(x.Key, x.Value)));
             _dashboardContainer.RegisterDataSource(_dataSource.Name, _dataSource);
+
+            _dashboard.DataSources.Add(DataSource);
         }
 
         public void ConfigureDashboard(string dashboardId)
