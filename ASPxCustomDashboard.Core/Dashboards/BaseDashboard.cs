@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using ASPxCustomDashboard.Core.Container;
+using ASPxCustomDashboard.Core.Providers;
 using DevExpress.DashboardCommon;
 using DevExpress.DataAccess.Sql;
-using WebAppCode.Providers;
 
-namespace WebAppCode.Dashboards
+namespace ASPxCustomDashboard.Core.Dashboards
 {
     public abstract class BaseDashboard: ICustomDashboard
     {

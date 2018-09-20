@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.UI.WebControls;
-using System.Xml.Linq;
-using DevExpress.DashboardCommon;
+using ASPxCustomDashboard.Core.Container;
+using ASPxCustomDashboard.Core.Dashboards;
+using ASPxCustomDashboard.Core.Providers;
 using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.ConnectionParameters;
-using DevExpress.DataAccess.Sql;
 using DevExpress.Web;
-using WebAppCode.Dashboards;
-using WebAppCode.Providers;
+using Newtonsoft.Json;
 
 
 namespace WebAppCode.Controls
@@ -98,6 +96,15 @@ namespace WebAppCode.Controls
             s.JSProperties.Add("cpChart1Name", FirstDashboard.ChartDocumentsByDaysComponentName);
             s.JSProperties.Add("cpChart2Name", FirstDashboard.ChartDocumentsByNamesComponentName);
             s.JSProperties.Add("cpChart21Name", SecondDashboard.ChartDocumentsByNamesComponentName2);
+
+            Dictionary<string, string> movementsMap = new Dictionary<string, string>();
+            movementsMap.Add("cpDashboard1Name.cpChart1Name", "cpDashboard2Name");
+            movementsMap.Add("cpDashboard1Name.cpChart2Name", "cpDashboard2Name");
+            movementsMap.Add("cpDashboard2Name.cpChart21Name", "cpDashboard1Name");
+
+            s.JSProperties.Add("cpDashboardMovementsMap", JsonConvert.SerializeObject(movementsMap));
+            
+            
         }
 
         #endregion

@@ -1,6 +1,7 @@
-﻿using DevExpress.DashboardCommon;
+﻿using ASPxCustomDashboard.Core.Container;
+using DevExpress.DashboardCommon;
 
-namespace WebAppCode.Dashboards
+namespace ASPxCustomDashboard.Core.Dashboards
 {
     public class SecondDashboard: BaseDashboard
     {

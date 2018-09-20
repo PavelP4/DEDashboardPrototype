@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.SessionState;
 using System.Xml.Linq;
+using ASPxCustomDashboard.Core.Dashboards;
+using ASPxCustomDashboard.Core.Providers;
 using DevExpress.DashboardCommon;
 using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.ConnectionParameters;
-using DevExpress.DataAccess.Sql;
-using WebAppCode.Providers;
 
-namespace WebAppCode.Dashboards
+namespace ASPxCustomDashboard.Core.Container
 {
     public class DashboardContainer: IDashboardContainer
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.UI;
 
-namespace WebApplication1
+namespace WebAppCode
 {
     public partial class _Default : Page
     {

@@ -1,5 +1,6 @@
 ﻿
-
+var currentDashboardId;
+var movementsMap;
 
 function CustomizeWidgets(s, e) {
 
@@ -18,31 +19,16 @@ function CustomizeWidgets(s, e) {
             }
             return o.valueText;
         });
-        
-        chart1.element().click(function (e) {
-
-            s.LoadDashboard(s.cpDashboard2Name);
-        });
     }
     else
-        if (e.ItemName === s.cpChart2Name) {
-
-        var chart2 = e.GetWidget();
-
-        chart2.element().click(function (e) {
-            
-        });
+    if (e.ItemName === s.cpChart2Name) {
     }
     else
     if (e.ItemName === s.cpChart21Name) {
-
-        var chart21 = e.GetWidget();
-
-        chart21.element().click(function (e) {
-
-            OpenDashboard(s.cpDashboard1Name);
-        });
+        
     }
+
+
 }
 
 function UnsubscribeFromEvents(s, e) {
@@ -52,16 +38,57 @@ function UnsubscribeFromEvents(s, e) {
     }
 }
 
+function RegisterMovementsByMap(s, e) {
+
+    var mapValue = movementsMap[currentDashboardId + "." + e.ItemName];
+    if (!mapValue) return;
+
+    var widget = e.GetWidget();
+    if (!widget) return;
+    
+    widget.element().click(function (e) {
+        OpenDashboard(mapValue);
+    });
+}
+
+function InitMovementsMap(source) {
+
+    movementsMap = {};
+
+    if (source.cpDashboardMovementsMap) {
+        var parsed = JSON.parse(source.cpDashboardMovementsMap);
+
+        for (var key in parsed) {
+            if (parsed.hasOwnProperty(key)) {
+                var val = parsed[key];
+                var keyArr = key.split(".");
+
+                if (keyArr.length !== 2) continue;
+
+                var dashboardId = keyArr[0];
+                var widgetId = keyArr[1];
+
+                movementsMap[source[dashboardId] + "." + source[widgetId]] = source[val];
+            }
+        }
+    }
+}
+
 function OnInitDashboard(s, e) {
+
+    InitMovementsMap(s);
+
     OpenDashboard(s.cpDashboard1Name);
 }
 
 function OnItemWidgetCreated(s, e) {
     CustomizeWidgets(s, e);
+    RegisterMovementsByMap(s, e);
 }
 
 function OnItemWidgetUpdated(s, e) {
     CustomizeWidgets(s, e);
+    RegisterMovementsByMap(s, e);
 }
 
 function OnItemWidgetUpdating(s, e) {
@@ -71,4 +98,5 @@ function OnItemWidgetUpdating(s, e) {
 function OpenDashboard(id) {
 
     DashboardDocum.LoadDashboard(id);
+    currentDashboardId = id;
 }

@@ -2,7 +2,7 @@
 using DevExpress.DataAccess.ConnectionParameters;
 using DevExpress.DataAccess.Web;
 
-namespace WebAppCode.Providers
+namespace ASPxCustomDashboard.Core.Providers
 {
     public class DashboardConnectionStringsProvider : IDataSourceWizardConnectionStringsProvider
     {

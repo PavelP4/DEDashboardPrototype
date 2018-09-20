@@ -199,12 +199,6 @@
     <Compile Include="Controls\DashboardDocumControl.ascx.designer.cs">
       <DependentUpon>DashboardDocumControl.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Dashboards\BaseDashboard.cs" />
-    <Compile Include="Dashboards\DashboardContainer.cs" />
-    <Compile Include="Dashboards\SecondDashboard.cs" />
-    <Compile Include="Dashboards\FirstDashboard.cs" />
-    <Compile Include="Dashboards\ICustomDashboard.cs" />
-    <Compile Include="Dashboards\IDashboardContainer.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -216,7 +210,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\DashboardConnectionStringsProvider.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -255,6 +248,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ASPxCustomDashboard.Core\ASPxCustomDashboard.Core.csproj">
+      <Project>{e909f345-c782-44e6-abfe-09efb85195a3}</Project>
+      <Name>ASPxCustomDashboard.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

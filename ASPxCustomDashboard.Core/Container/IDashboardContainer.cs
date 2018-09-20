@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Xml.Linq;
+using ASPxCustomDashboard.Core.Dashboards;
 using DevExpress.DashboardCommon;
 using DevExpress.DashboardWeb;
 using DevExpress.DataAccess.ConnectionParameters;
 
-namespace WebAppCode.Dashboards
+namespace ASPxCustomDashboard.Core.Container
 {
     public interface IDashboardContainer
     {
