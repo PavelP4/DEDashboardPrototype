@@ -5,6 +5,7 @@ using System.Web.UI.WebControls;
 using System.Xml.Linq;
 using DevExpress.DashboardCommon;
 using DevExpress.DashboardWeb;
+using DevExpress.DataAccess.ConnectionParameters;
 using DevExpress.DataAccess.Sql;
 using DevExpress.Web;
 using WebAppCode.Dashboards;
@@ -15,13 +16,8 @@ namespace WebAppCode.Controls
 {
     public partial class DashboardDocumControl : System.Web.UI.UserControl
     {
-        public const string SqlQuery1 = "SELECT dt.naziv, d.datum, au.name FROM pn.Dokument d INNER JOIN pn.DokumentTip dt ON d.id_dokument_tip = dt.id INNER JOIN dit.AppUser au ON d.id_updated_by = au.id WHERE d.datum < '20080101'";
-        public const string CustomSqlQueryName1 = "CustomSqlQuery1";
-
         public const string Dashboard1Name = "Dashboard1";
         public const string Dashboard2Name = "Dashboard2";
-        
-        public const string ChartDocumentsByNamesComponentName2 = "chartDashboardItem_DocumentsByNames2";
         
         private IDashboardContainer Container
         {
@@ -57,6 +53,7 @@ namespace WebAppCode.Controls
         {
             if (Container != null) // callback workaround
             {
+                Container.UpdateContainerComponent(ASPxDashboardDocum);
                 Container.Configure();
             }
 
@@ -65,8 +62,18 @@ namespace WebAppCode.Controls
                 Container = new DashboardContainer(ASPxDashboardDocum);
                 Container.Configure();
 
-                Container.RegisterDashboard(Dashboard1Name, new FirstDashboard(Container));
-                Container.RegisterDashboard(Dashboard2Name, new SecondDashboard(Container));
+                Container.RegisterDbConnectionParams(
+                    DashboardConnectionStringsProvider.MsSqlConnectionName, 
+                    new MsSqlConnectionParameters(
+                        @"ditv07\sql2012dev", 
+                        "ePlanNabave4_1_HS_Test", 
+                        "dokitsql2012dev", 
+                        "Asdjkl098321.", 
+                        MsSqlAuthorizationType.SqlServer));
+
+                //Container.RegisterDashboard(Dashboard1Name, new FirstDashboard(Container));
+                Container.RegisterDashboard<FirstDashboard>(Dashboard1Name);
+                Container.RegisterDashboard(Dashboard2Name, typeof(SecondDashboard));
 
                 //Container.ConfigureDashboards();
             }
@@ -75,8 +82,7 @@ namespace WebAppCode.Controls
         protected void ASPxDashboardDocum_DashboardLoading(object sender, DashboardLoadingWebEventArgs e)
         {
             string dashboardId = e.DashboardId;
-
-            Container.Configure();
+         
             Container.ConfigureDashboard(dashboardId);
 
             e.DashboardXml = Container.LoadDashboard(dashboardId);
@@ -91,7 +97,7 @@ namespace WebAppCode.Controls
 
             s.JSProperties.Add("cpChart1Name", FirstDashboard.ChartDocumentsByDaysComponentName);
             s.JSProperties.Add("cpChart2Name", FirstDashboard.ChartDocumentsByNamesComponentName);
-            s.JSProperties.Add("cpChart21Name", ChartDocumentsByNamesComponentName2);
+            s.JSProperties.Add("cpChart21Name", SecondDashboard.ChartDocumentsByNamesComponentName2);
         }
 
         #endregion

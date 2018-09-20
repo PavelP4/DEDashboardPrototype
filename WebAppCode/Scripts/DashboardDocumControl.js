@@ -50,8 +50,6 @@ function UnsubscribeFromEvents(s, e) {
         var chart1 = e.GetWidget();
         chart1.option('argumentAxis.label.customizeText', undefined);
     }
-    if (e.ItemName === s.cpChart2Name) {
-    }
 }
 
 function OnInitDashboard(s, e) {

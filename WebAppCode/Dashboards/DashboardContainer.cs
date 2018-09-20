@@ -6,6 +6,7 @@ using System.Web.SessionState;
 using System.Xml.Linq;
 using DevExpress.DashboardCommon;
 using DevExpress.DashboardWeb;
+using DevExpress.DataAccess.ConnectionParameters;
 using DevExpress.DataAccess.Sql;
 using WebAppCode.Providers;
 
@@ -13,9 +14,10 @@ namespace WebAppCode.Dashboards
 {
     public class DashboardContainer: IDashboardContainer
     {
-        private readonly ASPxDashboard _aspxDashboard;
+        private ASPxDashboard _aspxDashboard;
         private readonly DataSourceInMemoryStorage _dataSourceStorage;
         private readonly DashboardInMemoryStorage _dashboardStorage;
+        private readonly DashboardConnectionStringsProvider _connectionProvider;
 
         private readonly IDictionary<string, ICustomDashboard> _customDashboards;
 
@@ -23,10 +25,10 @@ namespace WebAppCode.Dashboards
         {
             _aspxDashboard = aspxDashboard;
 
-            SetDashboardConnectionStringsProvider();
-
             _dataSourceStorage = new DataSourceInMemoryStorage();
             _dashboardStorage = new DashboardInMemoryStorage();
+
+            _connectionProvider = new DashboardConnectionStringsProvider();
 
             _customDashboards = new Dictionary<string, ICustomDashboard>();
 
@@ -62,7 +64,7 @@ namespace WebAppCode.Dashboards
         public void SetDashboardConnectionStringsProvider()
         {
             //_aspxDashboard.SetConnectionStringsProvider(new ConfigFileConnectionStringsProvider());
-            _aspxDashboard.SetConnectionStringsProvider(new DashboardConnectionStringsProvider());
+            _aspxDashboard.SetConnectionStringsProvider(_connectionProvider);
         }
 
         public void ConfigureDashboards()
@@ -87,6 +89,18 @@ namespace WebAppCode.Dashboards
             _customDashboards.Add(dashboardId, dashboard);
         }
 
+        public void RegisterDashboard(string dashboardId, Type dashboardType)
+        {
+            var instance = CreateCustomDashboardInstance(dashboardType);
+            if (instance == null) return;
+            _customDashboards.Add(dashboardId, instance);
+        }
+
+        public void RegisterDashboard<T>(string dashboardId)
+        {
+            RegisterDashboard(dashboardId, typeof(T));
+        }
+
         public void RegisterDashboard(string dashboardId, Dashboard dashboard)
         {
             _dashboardStorage.RegisterDashboard(dashboardId, dashboard.SaveToXDocument());
@@ -95,6 +109,11 @@ namespace WebAppCode.Dashboards
         public void RegisterDataSource(string name, DashboardSqlDataSource dataSource)
         {
             _dataSourceStorage.RegisterDataSource(name, dataSource.SaveToXml());
+        }
+
+        public void RegisterDbConnectionParams(string name, DataConnectionParametersBase parameters)
+        {
+            _connectionProvider.AddConnectionParams(name, parameters);
         }
 
         public XDocument LoadDashboard(string dashboardId)
@@ -107,6 +126,20 @@ namespace WebAppCode.Dashboards
             return ((IDashboardStorage)_dashboardStorage)
                    .GetAvailableDashboardsInfo()
                    .FirstOrDefault(x => x.ID == dashboardId) != null;
+        }
+
+        public void UpdateContainerComponent(ASPxDashboard component)
+        {
+            _aspxDashboard = component;
+        }
+
+        private ICustomDashboard CreateCustomDashboardInstance(Type type)
+        {
+            var constructor = type.GetConstructor(new Type[]{ typeof(IDashboardContainer) });
+
+            if (constructor == null) return null;
+
+            return constructor.Invoke(new object[]{this}) as ICustomDashboard;
         }
     }
 }
