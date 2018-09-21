@@ -1,0 +1,52 @@
+﻿.tileitem {
+    width: 100%;
+    height: 100%;
+    padding: 6px;
+    padding-top: 26px;
+    background-color: royalblue;
+}
+
+.tileitem-image {
+    width: 48px;
+    height: 26px;
+    display: inline-block;
+}
+
+.tileitem-amount {
+    width: 32px;
+    height: 26px;
+    display: inline-block;
+    text-align: center;
+    color: white;
+    font-size: 14pt;
+}
+
+.tileitem-caption {
+    position: absolute;
+    bottom: 0;
+    margin-top: 8px;
+    margin-bottom: 6px;
+    color: white;
+    font-size: 8pt;
+}
+
+.tilerow-caption {
+    font-size: 8pt;
+    font-weight: bold;
+    padding-left: 10px;
+    margin-bottom: -10px;
+}
+
+.tilerow-links {
+    padding-top: 48px;
+    padding-left: 10px;
+}
+
+    .tilerow-links a {
+        font-size: 8pt;
+        font-weight: 600;
+        display: block;
+    }
+
+
+
