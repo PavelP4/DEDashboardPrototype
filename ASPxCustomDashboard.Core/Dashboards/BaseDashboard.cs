@@ -63,6 +63,8 @@ namespace ASPxCustomDashboard.Core.Dashboards
 
         protected void RegisterDataSource(string dashboardId)
         {
+            if (!_sqlQueries.Any()) return;
+
             _dataSource = new DashboardSqlDataSource(dashboardId + "_DataSource",
                 DashboardConnectionStringsProvider.MsSqlConnectionName);
           

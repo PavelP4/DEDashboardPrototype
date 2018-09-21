@@ -16,6 +16,7 @@ namespace WebAppCode.Controls
     {
         public const string Dashboard1Name = "Dashboard1";
         public const string Dashboard2Name = "Dashboard2";
+        public const string DashboardTilesPageName = "DashboardTilesPage";
         
         private IDashboardContainer Container
         {
@@ -72,6 +73,7 @@ namespace WebAppCode.Controls
                 //Container.RegisterDashboard(Dashboard1Name, new FirstDashboard(Container));
                 Container.RegisterDashboard<FirstDashboard>(Dashboard1Name);
                 Container.RegisterDashboard(Dashboard2Name, typeof(SecondDashboard));
+                Container.RegisterDashboard(DashboardTilesPageName, typeof(TilesPageDashboard));
 
                 //Container.ConfigureDashboards();
             }
@@ -92,10 +94,14 @@ namespace WebAppCode.Controls
 
             s.JSProperties.Add("cpDashboard1Name", Dashboard1Name);
             s.JSProperties.Add("cpDashboard2Name", Dashboard2Name);
+            s.JSProperties.Add("cpDashboardTilesPageName", DashboardTilesPageName);
+
+            s.JSProperties.Add("cpInitialDashboard", DashboardTilesPageName);
 
             s.JSProperties.Add("cpChart1Name", FirstDashboard.ChartDocumentsByDaysComponentName);
             s.JSProperties.Add("cpChart2Name", FirstDashboard.ChartDocumentsByNamesComponentName);
             s.JSProperties.Add("cpChart21Name", SecondDashboard.ChartDocumentsByNamesComponentName2);
+            s.JSProperties.Add("cpWebPageWidgetName", TilesPageDashboard.WebPageTilesPageComponentName);
 
             Dictionary<string, string> movementsMap = new Dictionary<string, string>();
             movementsMap.Add("cpDashboard1Name.cpChart1Name", "cpDashboard2Name");

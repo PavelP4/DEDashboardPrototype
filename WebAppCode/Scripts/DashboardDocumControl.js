@@ -27,6 +27,11 @@ function CustomizeWidgets(s, e) {
     if (e.ItemName === s.cpChart21Name) {
         
     }
+    else
+    if (e.ItemName === s.cpWebPageWidgetName)
+    {
+        var webpage1 = e.GetWidget();
+    }
 
 
 }
@@ -78,7 +83,7 @@ function OnInitDashboard(s, e) {
 
     InitMovementsMap(s);
 
-    OpenDashboard(s.cpDashboard1Name);
+    OpenDashboard(s.cpInitialDashboard);
 }
 
 function OnItemWidgetCreated(s, e) {
@@ -93,6 +98,11 @@ function OnItemWidgetUpdated(s, e) {
 
 function OnItemWidgetUpdating(s, e) {
     UnsubscribeFromEvents(s, e);
+}
+
+function OnBeforeRender(s, e) {
+    var dashboardControl = s.GetDashboardControl();
+    dashboardControl.registerExtension(new CustomItems.WebPageItemExtension(dashboardControl));
 }
 
 function OpenDashboard(id) {

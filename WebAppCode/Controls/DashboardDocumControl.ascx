@@ -4,12 +4,15 @@
 
 <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/Scripts/DashboardDocumControl.js") %>"></script>
 
-<dx:ASPxDashboard ID="ASPxDashboardDocum" runat="server" ClientInstanceName="DashboardDocum" WorkingMode="ViewerOnly"
+<dx:ASPxDashboard ID="ASPxDashboardDocum" runat="server" ClientInstanceName="DashboardDocum"
                   OnInit="ASPxDashboardDocum_OnInit"
-                  OnDashboardLoading="ASPxDashboardDocum_DashboardLoading"  
+                  OnDashboardLoading="ASPxDashboardDocum_DashboardLoading"
                   OnCustomJSProperties="ASPxDashboardDocum_OnCustomJSProperties"
 
                   ClientSideEvents-ItemWidgetCreated="OnItemWidgetCreated"  
                   ClientSideEvents-ItemWidgetUpdated="OnItemWidgetUpdated"  
                   ClientSideEvents-ItemWidgetUpdating="OnItemWidgetUpdating"
-                  ClientSideEvents-Init="OnInitDashboard"/>
+                  ClientSideEvents-Init="OnInitDashboard"
+                  ClientSideEvents-BeforeRender="OnBeforeRender" WorkingMode="ViewerOnly"/>
+
+<script src="/Custom_Items/webpage-extension.min.js"></script>

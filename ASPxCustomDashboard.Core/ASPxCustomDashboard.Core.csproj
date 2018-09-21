@@ -75,6 +75,7 @@
     <Compile Include="Container\DashboardContainer.cs" />
     <Compile Include="Container\IDashboardContainer.cs" />
     <Compile Include="Dashboards\BaseDashboard.cs" />
+    <Compile Include="Dashboards\TilesPageDashboard.cs" />
     <Compile Include="Dashboards\FirstDashboard.cs" />
     <Compile Include="Dashboards\ICustomDashboard.cs" />
     <Compile Include="Dashboards\SecondDashboard.cs" />
