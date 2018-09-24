@@ -29,7 +29,7 @@ namespace ASPxCustomDashboard.Core.Dashboards
         protected override void Configure()
         {
             Dashboard.Title.Text = "TilesPage Dashboard";
-          
+            return;
             
             CustomDashboardItem webpage = CreateWebPageTilesPage(DataSource, QueryName);
             Dashboard.Items.Add(webpage);
