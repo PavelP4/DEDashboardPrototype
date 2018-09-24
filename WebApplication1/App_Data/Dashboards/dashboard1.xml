@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="WebPage dashboard" />
+  <DataSources>
+    <SqlDataSource Name="CustomSqlQuery" ComponentName="DataSource1">
+      <Connection Name="msSqlConnection" FromAppConfig="true" />
+      <Query Type="CustomSqlQuery" Name="CustomSqlQuery">
+        <Sql>select '/Pages/TilesPage' as dbUrl</Sql>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <CustomItem ComponentName="customItemDashboardItem1" Name="Web Page 1" DataSource="DataSource1" DataMember="CustomSqlQuery" CustomItemType="WebPage">
+      <DataItems>
+        <Dimension DataMember="dbUrl" DefaultId="DataItem0" />
+      </DataItems>
+      <SliceTables>
+        <SliceTable Name="SliceTable1">
+          <Dimensions>
+            <Dimension DefaultId="DataItem0" />
+          </Dimensions>
+        </SliceTable>
+      </SliceTables>
+      <CustomMetadata Url="example.com">
+        <CustomDimensions>
+          <Item1 ItemType="Dimension" DefaultId="DataItem0" />
+        </CustomDimensions>
+      </CustomMetadata>
+    </CustomItem>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Weight="100">
+      <LayoutItem DashboardItem="customItemDashboardItem1" Weight="100" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

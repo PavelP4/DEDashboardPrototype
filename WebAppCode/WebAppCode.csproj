@@ -142,6 +142,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\TilesPage.css" />
     <Content Include="Controls\DashboardDocumControl.ascx" />
+    <Content Include="Custom_Items\tilespage-extension.js" />
     <Content Include="Custom_Items\webpage-extension.js" />
     <Content Include="Custom_Items\webpage-extension.min.js" />
     <Content Include="Default.aspx" />
@@ -205,6 +206,7 @@
     <Compile Include="Controls\DashboardDocumControl.ascx.designer.cs">
       <DependentUpon>DashboardDocumControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="CustomWidgets\WebPageDashboardItem.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

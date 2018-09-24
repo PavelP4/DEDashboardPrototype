@@ -12,7 +12,11 @@ var CustomItems;
                 propertyName: "CustomDimensions",
                 dataItemType: "Dimension",
                 array: true,
-                displayName: "Custom Dimensions"
+                displayName: "Db Url"
+        }, {
+            propertyName: 'customMeasure',
+            dataItemType: 'Measure',
+            displayName: "Custom Measure"
         }],
         properties: [{
                 propertyName: 'Url',
@@ -43,7 +47,7 @@ var CustomItems;
             return _this;
         }
         webPageItem.prototype.renderContent = function ($element, changeExisting, afterRenderCallback) {
-            var dbUrl;
+            var attribute;
             if (!changeExisting || !this._iframe) {
                 this._iframe = $('<iframe>', {
                     attr: {
@@ -55,12 +59,12 @@ var CustomItems;
                 $element.append(this._iframe);
             }
             this.iterateData(function (row) {
-                if (!dbUrl) {
-                    dbUrl = row.getDisplayText('CustomDimensions')[0];
+                if (!attribute) {
+                    attribute = row.getDisplayText('CustomDimensions')[0];
                 }
                 
             });
-            this._iframe.attr('src', dbUrl);
+            this._iframe.attr('src', attribute);
         };
         return webPageItem;
     }(DevExpress.Dashboard.customViewerItem));

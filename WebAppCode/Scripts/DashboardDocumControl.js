@@ -103,6 +103,7 @@ function OnItemWidgetUpdating(s, e) {
 function OnBeforeRender(s, e) {
     var dashboardControl = s.GetDashboardControl();
     dashboardControl.registerExtension(new CustomItems.WebPageItemExtension(dashboardControl));
+    //dashboardControl.registerExtension(new CustomItems.TilesPageItemExtension(dashboardControl));
 }
 
 function OpenDashboard(id) {

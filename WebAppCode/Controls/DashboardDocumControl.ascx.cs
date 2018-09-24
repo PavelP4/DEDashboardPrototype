@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Web.UI;
 using System.Web.UI.WebControls;
 using ASPxCustomDashboard.Core.Container;
 using ASPxCustomDashboard.Core.Dashboards;
@@ -27,6 +28,7 @@ namespace WebAppCode.Controls
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
         }
 
         #region .Control settings.
