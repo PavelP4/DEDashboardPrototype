@@ -243,6 +243,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dto\RacuniPerState.cs" />
+    <Compile Include="Models\TileItemData.cs" />
     <Compile Include="Pages\SpreadSheetPage.aspx.cs">
       <DependentUpon>SpreadSheetPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -283,6 +285,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Dashboards\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Models\Db\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

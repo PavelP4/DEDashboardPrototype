@@ -1,13 +1,12 @@
 ﻿using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
-using WebAppCode.Models.Db;
 
 namespace WebAppCode.Contexts
 {
     public class DataContext: DbContext
     {
-        public const string Connection_Name = "localConnection";
+        public const string Connection_Name = "nabave";
         public static readonly string Connection_String = ConfigurationManager.ConnectionStrings[Connection_Name].ConnectionString;
 
         public DataContext()
@@ -15,7 +14,7 @@ namespace WebAppCode.Contexts
         {
         }
 
-        public IDbSet<TableA> TableA { get; set; }
+        //public IDbSet<>  { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

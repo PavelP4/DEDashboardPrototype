@@ -32,13 +32,13 @@
     <div class="container body-content" style="width: 600px; padding-top: 20px; border: 1px solid lightgray;">
         <div class="row">
             <div class="col-md-8">
-                <div class="tilerow-caption">For Release</div>
-                <div id="forReleaseItems"></div> 
+                <div class="tilerow-caption">Računi</div>
+                <div id="računiItems"></div> 
             </div>
             <div class="col-md-4">
                 <div class="tilerow-links">
-                    <a href="#">New Sales Quote</a>
-                    <a href="#">New Sales Order</a>    
+                    <%--<a href="#">New Sales Quote</a>
+                    <a href="#">New Sales Order</a>--%>    
                 </div>
             </div>
         </div>    

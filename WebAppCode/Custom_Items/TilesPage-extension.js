@@ -70,7 +70,7 @@ var CustomItems;
 
 var imgSrc = "/Images/Sheet.png";
 
-var forReleaseItemsDS = [
+var računiItemsDS = [
     {
         id: "1",
         caption: "Sales Quotes - Open",
@@ -124,7 +124,7 @@ var returnedItemsDS = [
 var tileRows = [
     {
         elementId: "forReleaseItems",
-        dataSource: forReleaseItemsDS
+        dataSource: računiItemsDS
     },
     {
         elementId: "releasedNotSheepedItems",
