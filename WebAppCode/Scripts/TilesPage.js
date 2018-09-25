@@ -18,13 +18,13 @@ var računiItemsDS = [
 var releasedNotSheepedItemsDS = [
     {
         Id: "1",
-        Caption: "Ready to Sheep",
+        Caption: "Ready to Ship",
         Amount: 6,
         ImageSrc: imgSrc
     },
     {
         Id: "2",
-        Caption: "Partially Sheeped",
+        Caption: "Partially Shipped",
         Amount: 0,
         ImageSrc: imgSrc
     },

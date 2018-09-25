@@ -14,11 +14,11 @@ namespace WebAppCode
             //DevExpress.DashboardWeb.DashboardBootstrapper.SessionState = System.Web.SessionState.SessionStateBehavior.Disabled;
             //ASPxDashboard.StaticInitialize();
 
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            GlobalConfiguration.Configure(WebApiConfig.Register);
         }
     }
 }

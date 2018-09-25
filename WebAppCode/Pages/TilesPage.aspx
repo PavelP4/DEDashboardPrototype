@@ -44,7 +44,7 @@
         </div>    
         <div class="row">
             <div class="col-md-8">
-                <div class="tilerow-caption">Sales Orders Released Not Sheeped</div>
+                <div class="tilerow-caption">Sales Orders Released Not Shipped</div>
                 <div id="releasedNotSheepedItems"></div>    
             </div>
             <div class="col-md-4">
