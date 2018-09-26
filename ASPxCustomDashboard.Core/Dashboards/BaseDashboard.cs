@@ -61,12 +61,12 @@ namespace ASPxCustomDashboard.Core.Dashboards
             _sqlQueries.Add(queryName, querySql);
         }
 
-        protected void RegisterDataSource(string dashboardId)
+        protected virtual void RegisterDataSource(string dashboardId, string connectionName)
         {
             if (!_sqlQueries.Any()) return;
 
             _dataSource = new DashboardSqlDataSource(dashboardId + "_DataSource",
-                DashboardConnectionStringsProvider.MsSqlConnectionName);
+                connectionName);
           
             _dataSource.Queries.AddRange(_sqlQueries.Select(x => new CustomSqlQuery(x.Key, x.Value)));
             _dashboardContainer.RegisterDataSource(_dataSource.Name, _dataSource);
@@ -79,7 +79,7 @@ namespace ASPxCustomDashboard.Core.Dashboards
             if (IsConfigured) return;
 
             ConfigureDataSourceQueries();
-            RegisterDataSource(dashboardId);
+            RegisterDataSource(dashboardId, DashboardConnectionStringsProvider.MsSqlConnectionName);
 
             Configure();
 

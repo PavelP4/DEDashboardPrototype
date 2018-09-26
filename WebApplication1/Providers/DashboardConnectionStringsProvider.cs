@@ -22,7 +22,8 @@ namespace WebApplication1.Providers
             if (name == "msSqlConnection")
             {
                 //return new MsSqlConnectionParameters("localhost", "DashboardTest", "sa", "@dmin2018", MsSqlAuthorizationType.SqlServer);
-                return new MsSqlConnectionParameters(@"ditv07\sql2012dev", "ePlanNabave4_1_HS_Test", "dokitsql2012dev", "Asdjkl098321.", MsSqlAuthorizationType.SqlServer);
+                //return new MsSqlConnectionParameters(@"ditv07\sql2012dev", "ePlanNabave4_1_HS_Test", "dokitsql2012dev", "Asdjkl098321.", MsSqlAuthorizationType.SqlServer);
+                return new MsSqlConnectionParameters(@"ditv07\sql2014dev", "ePlanNabave4_1_Replica", "dokitsql2014dev", "Asdjkl098321.", MsSqlAuthorizationType.SqlServer);
             }
             throw new System.Exception("The connection string is undefined.");
         }

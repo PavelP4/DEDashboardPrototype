@@ -20,26 +20,36 @@ function CustomizeWidgets(s, e) {
             return o.valueText;
         });
     }
-    else
-    if (e.ItemName === s.cpChart2Name) {
-    }
-    else
-    if (e.ItemName === s.cpChart21Name) {
+
+    CustomizeChartProracunskiPodaci(s, e);
+}
+
+function CustomizeChartProracunskiPodaci(s, e) {
+    if (e.ItemName === s.cpChartProracunskiPodaciName) {
+
+        var chart = e.GetWidget();
+
+        //chart.option('argumentAxis.label.customizeText', function (o) {
+        //    //if (!o.valueText) return o.valueText;
+
+            
+        //    //return o.valueText.substring(0, 40);
+
+        //    console.log(o.valueText,o);
+        //});
         
     }
-    else
-    if (e.ItemName === s.cpWebPageWidgetName)
-    {
-        var webpage1 = e.GetWidget();
-    }
-
-
 }
 
 function UnsubscribeFromEvents(s, e) {
     if (e.ItemName === s.cpChart1Name) {
         var chart1 = e.GetWidget();
         chart1.option('argumentAxis.label.customizeText', undefined);
+    }
+
+    if (e.ItemName === s.cpChartProracunskiPodaciName) {
+        var chart = e.GetWidget();
+        chart.option('argumentAxis.label.customizeText', undefined);
     }
 }
 

@@ -63,6 +63,7 @@
     <Reference Include="DevExpress.XtraReports.v18.1, Version=18.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -75,6 +76,7 @@
     <Compile Include="Container\DashboardContainer.cs" />
     <Compile Include="Container\IDashboardContainer.cs" />
     <Compile Include="Dashboards\BaseDashboard.cs" />
+    <Compile Include="Dashboards\ProracunDashboard.cs" />
     <Compile Include="Dashboards\TilesPageDashboard.cs" />
     <Compile Include="Dashboards\FirstDashboard.cs" />
     <Compile Include="Dashboards\ICustomDashboard.cs" />
