@@ -34,10 +34,43 @@ function CustomizeChartProracunskiPodaci(s, e) {
 
             
         //    //return o.valueText.substring(0, 40);
-
+        //    //return o.valueText;
         //    console.log(o.valueText,o);
         //});
-        
+
+        chart.option({
+            argumentAxis: {
+                //valueMarginsEnabled: true,
+                //discreteAxisDivisionMode: "crossLabels",
+                //grid: {
+                //    visible: true
+                //},
+                label: {
+                    //customizeHint: function(e) {
+                    //    return "customizeHint";
+                    //},
+                    //indentFromAxis: 1,
+                    //rotationAngle: -20,
+                    //staggeringSpacing: 0,
+                    //overlappingBehavior: 'stagger',
+                    displayMode: 'rotate',
+                    rotationAngle: -20
+                    //customizeText: function (o) {
+                    //    console.log("customizeText", this);
+                    //    return o.valueText;
+                    //}
+                }
+            }
+            //tooltip: {
+            //    enabled: true,
+            //    customizeTooltip: function (args) {
+            //        console.log("customizeTooltip", args);
+            //        return {
+            //            html: "<div style='width: 40px;'>qwerw e qwerrr vv xasdas dd fasdf faaaaa dasdf</div>"
+            //        };
+            //    }
+            //}
+        });
     }
 }
 

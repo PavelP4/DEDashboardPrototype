@@ -36,8 +36,10 @@ SELECT razdjel,
     <Chart ComponentName="chartDashboardItem1" Name="Chart 1" DataSource="DataSource1" DataMember="CustomSqlQuery">
       <DataItems>
         <Dimension DataMember="razdjel" ColoringMode="None" DefaultId="DataItem0" />
-        <Measure DataMember="value" DefaultId="DataItem1" />
-        <Dimension DataMember="valueDesc" ColoringMode="Hue" DefaultId="DataItem2" />
+        <Measure DataMember="value" DefaultId="DataItem1">
+          <NumericFormat FormatType="General" Unit="Ones" CurrencyCultureName="hr-HR" />
+        </Measure>
+        <Dimension DataMember="valueDesc" SortOrder="Descending" ColoringMode="Hue" DefaultId="DataItem2" />
       </DataItems>
       <SeriesDimensions>
         <SeriesDimension DefaultId="DataItem2" />
@@ -47,10 +49,10 @@ SELECT razdjel,
       </Arguments>
       <Panes>
         <Pane Name="Pane 1">
-          <AxisY Reverse="true" />
           <Series>
             <Simple SeriesType="FullStackedBar">
               <Value DefaultId="DataItem1" />
+              <PointLabelOptions Position="Inside" />
             </Simple>
           </Series>
         </Pane>

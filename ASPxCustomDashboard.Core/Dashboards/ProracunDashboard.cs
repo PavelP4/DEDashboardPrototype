@@ -83,16 +83,20 @@ namespace ASPxCustomDashboard.Core.Dashboards
             chart.Arguments.Add(xDimension);
 
             Dimension seriesDimension = new Dimension("valueDesc");
-            chart.SeriesDimensions.Add(seriesDimension); 
+            seriesDimension.SortOrder = DimensionSortOrder.Descending;
+            chart.SeriesDimensions.Add(seriesDimension);
 
             ChartPane pane = new ChartPane();
             chart.Panes.Add(pane);
             SimpleSeries valueSumSeries = new SimpleSeries(SimpleSeriesType.FullStackedBar);
             Measure yMeasure = new Measure("value", SummaryType.Sum);
+            yMeasure.NumericFormat.FormatType = DataItemNumericFormatType.General;
+            yMeasure.NumericFormat.IncludeGroupSeparator = true;
+            yMeasure.NumericFormat.Precision = 2;
             valueSumSeries.Value = yMeasure;
             pane.Series.Add(valueSumSeries);
             pane.PrimaryAxisY.TitleVisible = false;
-            pane.PrimaryAxisY.Reverse = true;
+            pane.PrimaryAxisY.Reverse = false;
 
             chart.AxisX.EnableZooming = false;
 
