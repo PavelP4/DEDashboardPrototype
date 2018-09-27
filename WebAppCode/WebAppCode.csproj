@@ -186,7 +186,6 @@
     <Content Include="Pages\Dashboards\ProracunDashboardPage.aspx" />
     <Content Include="Pages\Dashboards\VrijednostAndIznosDashboardPage.aspx" />
     <Content Include="Pages\Dashboards\VrijemeObradeDashboardPage.aspx" />
-    <Content Include="Pages\SpreadSheetPage.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DashboardDocumControl.js" />
@@ -230,7 +229,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Contexts\FinPlanExcelContext.cs" />
     <Compile Include="Contexts\DataContext.cs" />
+    <Compile Include="Controllers\FinancialPlanController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TilesPageController.cs" />
     <Compile Include="Controls\DashboardDocumControl.ascx.cs">
@@ -251,7 +252,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\FinancialPlan\Db\BaseEntity.cs" />
+    <Compile Include="Models\FinancialPlan\Db\Configuration\FinancialPlanConfiguration.cs" />
+    <Compile Include="Models\FinancialPlan\Db\Configuration\FinancialPlanItemConfiguration.cs" />
+    <Compile Include="Models\FinancialPlan\Db\Configuration\FinancialPlanItemFinancialSourceConfiguration.cs" />
+    <Compile Include="Models\FinancialPlan\Db\Configuration\FinancialSourceConfiguration.cs" />
+    <Compile Include="Models\FinancialPlan\Db\Configuration\PlanStructureConfiguration.cs" />
+    <Compile Include="Models\FinancialPlan\Db\FinancialPlan.cs" />
+    <Compile Include="Models\FinancialPlan\Db\FinancialPlanItem.cs" />
+    <Compile Include="Models\FinancialPlan\Db\FinancialPlanItemFinancialSource.cs" />
+    <Compile Include="Models\FinancialPlan\Db\FinancialSource.cs" />
+    <Compile Include="Models\FinancialPlan\Db\PlanStructure.cs" />
     <Compile Include="Models\Dto\RacuniPerState.cs" />
+    <Compile Include="Models\FinancialPlan\SSFinancialPlan.cs" />
+    <Compile Include="Models\FinancialPlan\SSFinancialPlanRow.cs" />
     <Compile Include="Models\TileItemData.cs" />
     <Compile Include="Pages\Dashboards\ProracunDashboardPage.aspx.cs">
       <DependentUpon>ProracunDashboardPage.aspx</DependentUpon>
@@ -278,10 +292,15 @@
       <DependentUpon>SpreadSheetPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\SpreadSheetPage.aspx.designer.cs">
-      <DependentUpon>SpreadSheetPage.aspx</DependentUpon>
+    <Compile Include="Pages\SpreadSheetFinancialPlanPage.aspx.designer.cs">
+      <DependentUpon>SpreadSheetFinancialPlanPage.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BaseSpreadSheetLoader.cs" />
+    <Compile Include="Services\FinancailPlanSpreadSheetLoader.cs" />
+    <Compile Include="Services\FinancialPlanService.cs" />
+    <Compile Include="Services\IFinancialPlanService.cs" />
+    <Compile Include="Services\ISpreadSheetLoader.cs" />
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -314,7 +333,6 @@
   <ItemGroup>
     <Folder Include="App_Data\Dashboards\" />
     <Folder Include="Helpers\" />
-    <Folder Include="Models\Db\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
