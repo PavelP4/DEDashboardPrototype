@@ -4,7 +4,7 @@
 
 <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/Scripts/DashboardDocumControl.js") %>"></script>
 
-<dx:ASPxDashboard ID="ASPxDashboardDocum" runat="server" ClientInstanceName="DashboardDocum"
+<dx:ASPxDashboard ID="ASPxDashboardDocum" runat="server" ClientInstanceName="DashboardDocum" WorkingMode="ViewerOnly"
                   OnInit="ASPxDashboardDocum_OnInit"
                   OnDashboardLoading="ASPxDashboardDocum_DashboardLoading"
                   OnCustomJSProperties="ASPxDashboardDocum_OnCustomJSProperties"
@@ -13,7 +13,11 @@
                   ClientSideEvents-ItemWidgetUpdated="OnItemWidgetUpdated"  
                   ClientSideEvents-ItemWidgetUpdating="OnItemWidgetUpdating"
                   ClientSideEvents-Init="OnInitDashboard"
-                  ClientSideEvents-BeforeRender="OnBeforeRender" WorkingMode="ViewerOnly"/>
+                  ClientSideEvents-BeforeRender="OnBeforeRender" 
+   
+                  ClientSideEvents-DashboardEndUpdate="OnDashboardEndUpdate"
+                  
+                 />
 
 <script src="/Custom_Items/webpage-extension.js"></script>
 <script src="/Custom_Items/tilespage-extension.js"></script>

@@ -24,28 +24,46 @@ function CustomizeWidgets(s, e) {
     CustomizeChartProracunskiPodaci(s, e);
 }
 
+var ttLineRegEx = /Realizacija.*?[0-9,\.]+/gmi;
+var ttLineAmountRegEx = /\s[0-9,\.]+$/g;
+var ttClearAmountRegEx = /[,\s]*/g;
 function CustomizeChartProracunskiPodaci(s, e) {
     if (e.ItemName === s.cpChartProracunskiPodaciName) {
 
         var chart = e.GetWidget();
+        var axisXCustomizeText = chart.option('argumentAxis.label.customizeText');
+        chart.option('argumentAxis.label.customizeText', function (args) {
+            var defaultText = $.proxy(axisXCustomizeText, args)(args);
+            return defaultText.replace("Upravni odjel", "UO");
+        });
 
-        //chart.option('argumentAxis.label.customizeText', function (o) {
-        //    //if (!o.valueText) return o.valueText;
+        var tooltipCustomizeTooltip = chart.option('tooltip.customizeTooltip');
+        chart.option('tooltip.customizeTooltip', function (args) {
+            var originObj = $.proxy(tooltipCustomizeTooltip, args)(args);
+            var total = args.total;
+            var resultHtml = originObj.html.replace(ttLineRegEx,
+                function (r) {
+                    var rAmount = r.match(ttLineAmountRegEx);
+                    //var rAmount = /\s[0-9,\.]+$/g.exec(r);
+                    if (!rAmount) return "";
 
-            
-        //    //return o.valueText.substring(0, 40);
-        //    //return o.valueText;
-        //    console.log(o.valueText,o);
-        //});
+                    var itemAmount = Number(rAmount[0].replace(ttClearAmountRegEx, ""));
 
-        chart.option({
-            argumentAxis: {
+                    return r + " (" + ((itemAmount / total) * 100).toFixed(2) + "%)";
+                });
+
+            return {
+                html: resultHtml
+            };
+        });
+        //chart.option({
+        //    argumentAxis: {
                 //valueMarginsEnabled: true,
                 //discreteAxisDivisionMode: "crossLabels",
                 //grid: {
                 //    visible: true
                 //},
-                label: {
+                //label: {
                     //customizeHint: function(e) {
                     //    return "customizeHint";
                     //},
@@ -53,14 +71,14 @@ function CustomizeChartProracunskiPodaci(s, e) {
                     //rotationAngle: -20,
                     //staggeringSpacing: 0,
                     //overlappingBehavior: 'stagger',
-                    displayMode: 'rotate',
-                    rotationAngle: -20
+                    //displayMode: 'rotate',
+                    //rotationAngle: -20
                     //customizeText: function (o) {
                     //    console.log("customizeText", this);
                     //    return o.valueText;
                     //}
-                }
-            }
+                //}
+            //}
             //tooltip: {
             //    enabled: true,
             //    customizeTooltip: function (args) {
@@ -70,7 +88,7 @@ function CustomizeChartProracunskiPodaci(s, e) {
             //        };
             //    }
             //}
-        });
+        //});
     }
 }
 
@@ -137,6 +155,8 @@ function OnItemWidgetCreated(s, e) {
 function OnItemWidgetUpdated(s, e) {
     CustomizeWidgets(s, e);
     RegisterMovementsByMap(s, e);
+
+    CustomizeAxisXFirstArg();
 }
 
 function OnItemWidgetUpdating(s, e) {
@@ -154,3 +174,28 @@ function OpenDashboard(id) {
     DashboardDocum.LoadDashboard(id);
     currentDashboardId = id;
 }
+
+function OnDashboardEndUpdate() {
+    CustomizeAxisXFirstArg();
+
+    $("svg.dxc.dxc-chart")[0].addEventListener("SVGResize", function () {
+        console.log("SVGResize");
+    });
+    //$(window).resize(CustomizeAxisXFirstArg);
+}
+
+function CustomizeAxisXFirstArg() {
+    var firstArg = $("svg g.dxc-arg-elements > text:first-child")[0];
+    firstArg.innerHTML =
+        "<tspan y='215' x='154'>One,</tspan><tspan y='225' x='154'>Two,</tspan><tspan y='235' x='154'>Three!</tspan>";
+}
+
+$(function() {
+
+    //$("svg.dxc.dxc-chart").on("SVGResize", function() {
+    //    console.log("SVGResize");
+    //});
+    //$("svg.dxc.dxc-chart")[0].addEventListener("SVGResize", function () {
+    //    console.log("SVGResize");
+    //});
+});
