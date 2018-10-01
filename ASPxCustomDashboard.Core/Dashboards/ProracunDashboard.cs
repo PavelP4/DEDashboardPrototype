@@ -136,17 +136,17 @@ namespace ASPxCustomDashboard.Core.Dashboards
             chart.DataSource = DataSource;
             chart.DataMember = queryName;
             chart.ShowCaption = true;
-
+         
             Dimension xDimension = new Dimension("razdjel");
             chart.Arguments.Add(xDimension);
-
+        
             Dimension seriesDimension = new Dimension("valueDesc");
             seriesDimension.SortOrder = DimensionSortOrder.Descending;
             chart.SeriesDimensions.Add(seriesDimension);
 
             ChartPane pane = new ChartPane();
             chart.Panes.Add(pane);
-            SimpleSeries valueSumSeries = new SimpleSeries(SimpleSeriesType.FullStackedBar);
+            SimpleSeries valueSumSeries = new SimpleSeries(SimpleSeriesType.FullStackedBar); 
             Measure yMeasure = new Measure("value", SummaryType.Sum);
             yMeasure.NumericFormat.FormatType = DataItemNumericFormatType.Currency;
             yMeasure.NumericFormat.IncludeGroupSeparator = true;
@@ -159,9 +159,8 @@ namespace ASPxCustomDashboard.Core.Dashboards
             pane.PrimaryAxisY.Reverse = false;
 
             chart.AxisX.EnableZooming = false;
-
             chart.Legend.OutsidePosition = ChartLegendOutsidePosition.TopLeftHorizontal;
-
+            
             ConfigureColorScheme(queryName, seriesDimension.GetDimensionDefinition());
 
             return chart;

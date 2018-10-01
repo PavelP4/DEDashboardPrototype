@@ -24,9 +24,14 @@ function CustomizeWidgets(s, e) {
     CustomizeChartProracunskiPodaci(s, e);
 }
 
-var ttLineRegEx = /Realizacija.*?[0-9,\.]+/gmi;
-var ttLineAmountRegEx = /\s[0-9,\.]+$/g;
-var ttClearAmountRegEx = /[,\s]*/g;
+var ttLineRegEx = /Realizacija.*?[0-9,\.]+.*?(?=<)/gmi;
+var ttLineCurrencyDesRegEx = /\skn\s?/g;
+var ttLineAmountRegEx = /\s[0-9,\.]+\s?/g;
+var ttClearAmountRegEx = /[,\.\s]/g;
+var ttNumberDLMRegEx = /[,\.]{1}(\d{2})$/g;
+var ttSpacesRegEx = /\s+/g;
+const maxSymbols = 15;
+const spaceDLM = " ";
 function CustomizeChartProracunskiPodaci(s, e) {
     if (e.ItemName === s.cpChartProracunskiPodaciName) {
 
@@ -34,7 +39,39 @@ function CustomizeChartProracunskiPodaci(s, e) {
         var axisXCustomizeText = chart.option('argumentAxis.label.customizeText');
         chart.option('argumentAxis.label.customizeText', function (args) {
             var defaultText = $.proxy(axisXCustomizeText, args)(args);
-            return defaultText.replace("Upravni odjel", "UO");
+            if (!defaultText) return "(Blank)";
+
+            var textArr = defaultText.trim().replace(ttSpacesRegEx, spaceDLM).split(spaceDLM);
+            if (textArr.length === 1) return defaultText;
+
+            var lineArr = [];
+            var prevLineText = "";
+            var curLineText = "";
+
+            textArr.forEach(function (item, i, arr) {
+                prevLineText = curLineText;
+                curLineText = prevLineText + (curLineText.length === 0 ? item : spaceDLM + item);
+
+                if ((curLineText.length > maxSymbols && lineArr.length > 0)
+                    || (lineArr.length === 0 && curLineText.length > maxSymbols + 3)) {
+
+                    lineArr.push(prevLineText);
+                    curLineText = item;
+                }
+
+                if (i === arr.length - 1) {
+                    lineArr.push(curLineText);
+                }
+            });
+
+            //lineArr[0] = "<span>" + lineArr[0] + "</span>";
+            var resultText = "";
+            lineArr.forEach(function (item, i, arr) {
+                resultText = resultText + "<span class='chart-xaxis-label'>" + item + "</span>" + (i < arr.length - 1 ? "</br>" : "");
+            });
+            //resultText = resultText.replace("Upravni odjel", "UO");
+           
+            return resultText;
         });
 
         var tooltipCustomizeTooltip = chart.option('tooltip.customizeTooltip');
@@ -47,49 +84,71 @@ function CustomizeChartProracunskiPodaci(s, e) {
                     //var rAmount = /\s[0-9,\.]+$/g.exec(r);
                     if (!rAmount) return "";
 
-                    var itemAmount = Number(rAmount[0].replace(ttClearAmountRegEx, ""));
+                    var itemAmountTextDef = rAmount[0].trim();
+                    var itemAmount = TextToNumber(itemAmountTextDef);
 
-                    return r + " (" + ((itemAmount / total) * 100).toFixed(2) + "%)";
+                    r = r.replace(ttLineCurrencyDesRegEx, " ")
+                            .replace(": ", ": HRK ");
+                    r = r.replace(itemAmountTextDef,
+                        itemAmountTextDef
+                            .replace(ttNumberDLMRegEx, "_$1")
+                            .replace(ttClearAmountRegEx, ".")
+                            .replace("_", ","));
+
+                    return r + " (" + ((itemAmount / total) * 100).toFixed(2).replace(".",",") + "%)";
                 });
 
             return {
                 html: resultHtml
             };
         });
+
+        //redrawOnResize: false
+        //encodeHtml: true
+        //_renderer.encodeHtml: true
+
+        chart.option({
+            encodeHtml: false,
+            argumentAxis: {
+                label: {
+                    overlappingBehavior: "none"
+                }
+            }
+        });
+
         //chart.option({
         //    argumentAxis: {
-                //valueMarginsEnabled: true,
-                //discreteAxisDivisionMode: "crossLabels",
-                //grid: {
-                //    visible: true
-                //},
-                //label: {
-                    //customizeHint: function(e) {
-                    //    return "customizeHint";
-                    //},
-                    //indentFromAxis: 1,
-                    //rotationAngle: -20,
-                    //staggeringSpacing: 0,
-                    //overlappingBehavior: 'stagger',
-                    //displayMode: 'rotate',
-                    //rotationAngle: -20
-                    //customizeText: function (o) {
-                    //    console.log("customizeText", this);
-                    //    return o.valueText;
-                    //}
-                //}
-            //}
-            //tooltip: {
-            //    enabled: true,
-            //    customizeTooltip: function (args) {
-            //        console.log("customizeTooltip", args);
-            //        return {
-            //            html: "<div style='width: 40px;'>qwerw e qwerrr vv xasdas dd fasdf faaaaa dasdf</div>"
-            //        };
-            //    }
-            //}
+        //valueMarginsEnabled: true,
+        //discreteAxisDivisionMode: "crossLabels",
+        //grid: {
+        //    visible: true
+        //},
+        //label: {
+        //customizeHint: function(e) {
+        //    return "customizeHint";
+        //},
+        //indentFromAxis: 1,
+        //staggeringSpacing: 0,
+        //overlappingBehavior: 'stagger',
+        //displayMode: 'rotate',
+        //rotationAngle: -20
+        //}
         //});
     }
+}
+
+// Must be replaced by internal localization mechanism
+function TextToNumber(text) {
+    
+    var t = text.replace(ttNumberDLMRegEx, "_$1");
+    t = t.replace(ttClearAmountRegEx, "");
+    
+    var value = Number(t.replace("_", "."));
+    if (isNaN(value)) {
+        value = Number(t.replace("_", ","));
+    }
+
+    return value;
 }
 
 function UnsubscribeFromEvents(s, e) {
@@ -155,8 +214,6 @@ function OnItemWidgetCreated(s, e) {
 function OnItemWidgetUpdated(s, e) {
     CustomizeWidgets(s, e);
     RegisterMovementsByMap(s, e);
-
-    CustomizeAxisXFirstArg();
 }
 
 function OnItemWidgetUpdating(s, e) {
@@ -176,26 +233,4 @@ function OpenDashboard(id) {
 }
 
 function OnDashboardEndUpdate() {
-    CustomizeAxisXFirstArg();
-
-    $("svg.dxc.dxc-chart")[0].addEventListener("SVGResize", function () {
-        console.log("SVGResize");
-    });
-    //$(window).resize(CustomizeAxisXFirstArg);
 }
-
-function CustomizeAxisXFirstArg() {
-    var firstArg = $("svg g.dxc-arg-elements > text:first-child")[0];
-    firstArg.innerHTML =
-        "<tspan y='215' x='154'>One,</tspan><tspan y='225' x='154'>Two,</tspan><tspan y='235' x='154'>Three!</tspan>";
-}
-
-$(function() {
-
-    //$("svg.dxc.dxc-chart").on("SVGResize", function() {
-    //    console.log("SVGResize");
-    //});
-    //$("svg.dxc.dxc-chart")[0].addEventListener("SVGResize", function () {
-    //    console.log("SVGResize");
-    //});
-});

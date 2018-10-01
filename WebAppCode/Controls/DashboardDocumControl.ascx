@@ -19,5 +19,5 @@
                   
                  />
 
-<script src="/Custom_Items/webpage-extension.js"></script>
-<script src="/Custom_Items/tilespage-extension.js"></script>
+<script src="<%=Page.ResolveClientUrl("~/Custom_Items/webpage-extension.js") %>"></script>
+<script src="<%=Page.ResolveClientUrl("~/Custom_Items/tilespage-extension.js") %>"></script>
