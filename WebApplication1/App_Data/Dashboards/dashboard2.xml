@@ -59,6 +59,7 @@ SELECT razdjel,
         </Pane>
       </Panes>
       <ChartLegend OutsidePosition="TopLeftHorizontal" />
+      <AxisX EnableZooming="true" LimitVisiblePoints="true" />
     </Chart>
     <ComboBox ComponentName="comboBoxDashboardItem1" Name="Razdjel" Group="groupDashboardItem1" DataSource="DataSource1" DataMember="CustomSqlQuery" EnableSearch="true">
       <InteractivityOptions IgnoreMasterFilters="false" />

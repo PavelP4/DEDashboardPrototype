@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="New Dashboard2.1-3" />
+  <DataSources>
+    <SqlDataSource Name="CustomSqlQuery" ComponentName="DataSource1">
+      <Connection Name="msSqlConnection" FromAppConfig="true" />
+      <Query Type="CustomSqlQuery" Name="CustomSqlQuery">
+        <Sql>SELECT RTRIM(razdjel) as razdjel, 
+  planirana_vrijednost AS value,
+  'Planirana vrijednost' AS valueDesc,
+  pozicija,
+  program,
+  glava,
+  projekt_aktivnost,
+  izvori_sredstava,
+  ekonomska_klasifikacija,
+  korisnik
+FROM dbo.dvwRealizacijaPlanaNabave
+UNION ALL
+SELECT RTRIM(razdjel) as razdjel, 
+  iznos_realizacije AS value,
+  'Iznos realizacije' AS valueDesc,
+  pozicija,
+  program,
+  glava,
+  projekt_aktivnost,
+  izvori_sredstava,
+  ekonomska_klasifikacija,
+  korisnik
+FROM dbo.dvwRealizacijaPlanaNabave</Sql>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Chart ComponentName="chartDashboardItem1" Name="Chart 1" DataSource="DataSource1" DataMember="CustomSqlQuery">
+      <ColoringOptions MeasuresColoringMode="Hue" />
+      <DataItems>
+        <Dimension DataMember="razdjel" DefaultId="DataItem0" />
+        <Measure DataMember="value" DefaultId="DataItem1" />
+        <Measure DataMember="value" DefaultId="DataItem2" />
+        <Measure DataMember="value" DefaultId="DataItem3" />
+        <Measure DataMember="value" DefaultId="DataItem4" />
+      </DataItems>
+      <Arguments>
+        <Argument DefaultId="DataItem0" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1" />
+      </Panes>
+      <ChartLegend OutsidePosition="TopLeftHorizontal" />
+    </Chart>
+  </Items>
+  <ColorScheme>
+    <Entry DataSource="DataSource1" DataMember="CustomSqlQuery" Color="-15022869">
+      <MeasureKey>
+        <Definition DataMember="value" />
+      </MeasureKey>
+      <DimensionKeys>
+        <DimensionKey>
+          <Definition DataMember="valueDesc" />
+          <Value Type="System.String" Value="Iznos realizacije" />
+        </DimensionKey>
+      </DimensionKeys>
+    </Entry>
+    <Entry DataSource="DataSource1" DataMember="CustomSqlQuery" Color="-15282441">
+      <MeasureKey>
+        <Definition DataMember="planirana_vrijednost" />
+      </MeasureKey>
+    </Entry>
+    <Entry DataSource="DataSource1" DataMember="CustomSqlQuery" Color="-6999082">
+      <MeasureKey>
+        <Definition DataMember="iznos_realizacije" />
+      </MeasureKey>
+    </Entry>
+  </ColorScheme>
+  <LayoutTree>
+    <LayoutGroup Weight="100">
+      <LayoutItem DashboardItem="chartDashboardItem1" Weight="100" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

@@ -22,9 +22,32 @@ function CustomizeWidgets(s, e) {
     }
 
     CustomizeChartProracunskiPodaci(s, e);
+    CustomizeChartChartVrijednostAndIznos(s, e);
 }
 
-var ttLineRegEx = /Realizacija.*?[0-9,\.]+.*?(?=<)/gmi;
+
+function CustomizeChartProracunskiPodaci(s, e) {
+    if (e.ItemName === s.cpChartProracunskiPodaciName) {
+
+        var chart = e.GetWidget();
+
+        CustomizeChartXLabels(chart, 3);
+        CustomizeChartTooltip(chart, true);
+    }
+}
+
+function CustomizeChartChartVrijednostAndIznos(s, e) {
+    if (e.ItemName === s.cpChartVrijednostAndIznosComponentName) {
+
+        var chart = e.GetWidget();
+
+        CustomizeChartXLabels(chart, 0);
+        CustomizeChartTooltip(chart, false);
+    }
+}
+
+
+var ttLineRegEx = /(?<=&nbsp;&nbsp;).*?[0-9,\.]+.*?(?=<)/gmi;
 var ttLineCurrencyDesRegEx = /\skn\s?/g;
 var ttLineAmountRegEx = /\s[0-9,\.]+\s?/g;
 var ttClearAmountRegEx = /[,\.\s]/g;
@@ -32,110 +55,116 @@ var ttNumberDLMRegEx = /[,\.]{1}(\d{2})$/g;
 var ttSpacesRegEx = /\s+/g;
 const maxSymbols = 15;
 const spaceDLM = " ";
-function CustomizeChartProracunskiPodaci(s, e) {
-    if (e.ItemName === s.cpChartProracunskiPodaciName) {
 
-        var chart = e.GetWidget();
-        var axisXCustomizeText = chart.option('argumentAxis.label.customizeText');
-        chart.option('argumentAxis.label.customizeText', function (args) {
-            var defaultText = $.proxy(axisXCustomizeText, args)(args);
-            if (!defaultText) return "(Blank)";
+function CustomizeChartXLabels(chart, firstLinePlus) {
 
-            var textArr = defaultText.trim().replace(ttSpacesRegEx, spaceDLM).split(spaceDLM);
-            if (textArr.length === 1) return defaultText;
+    var axisXCustomizeText = chart.option('argumentAxis.label.customizeText');
+    chart.option('argumentAxis.label.customizeText', function (args) {
+        var defaultText = $.proxy(axisXCustomizeText, args)(args);
+        if (!defaultText.trim()) return "(Blank)";
 
-            var lineArr = [];
-            var prevLineText = "";
-            var curLineText = "";
+        var textArr = defaultText.trim().replace(ttSpacesRegEx, spaceDLM).split(spaceDLM);
+        if (textArr.length === 1) return defaultText;
 
-            textArr.forEach(function (item, i, arr) {
-                prevLineText = curLineText;
-                curLineText = prevLineText + (curLineText.length === 0 ? item : spaceDLM + item);
+        var lineArr = [];
+        var prevLineText = "";
+        var curLineText = "";
 
-                if ((curLineText.length > maxSymbols && lineArr.length > 0)
-                    || (lineArr.length === 0 && curLineText.length > maxSymbols + 3)) {
+        textArr.forEach(function (item, i, arr) {
+            prevLineText = curLineText;
+            curLineText = prevLineText + (curLineText.length === 0 ? item : spaceDLM + item);
 
-                    lineArr.push(prevLineText);
-                    curLineText = item;
-                }
+            if ((curLineText.length > maxSymbols && lineArr.length > 0)
+                || (lineArr.length === 0 && curLineText.length > maxSymbols + firstLinePlus)) {
 
-                if (i === arr.length - 1) {
-                    lineArr.push(curLineText);
-                }
-            });
+                lineArr.push(prevLineText);
+                curLineText = item;
+            }
 
-            //lineArr[0] = "<span>" + lineArr[0] + "</span>";
-            var resultText = "";
-            lineArr.forEach(function (item, i, arr) {
-                resultText = resultText + "<span class='chart-xaxis-label'>" + item + "</span>" + (i < arr.length - 1 ? "</br>" : "");
-            });
-            //resultText = resultText.replace("Upravni odjel", "UO");
-           
-            return resultText;
-        });
-
-        var tooltipCustomizeTooltip = chart.option('tooltip.customizeTooltip');
-        chart.option('tooltip.customizeTooltip', function (args) {
-            var originObj = $.proxy(tooltipCustomizeTooltip, args)(args);
-            var total = args.total;
-            var resultHtml = originObj.html.replace(ttLineRegEx,
-                function (r) {
-                    var rAmount = r.match(ttLineAmountRegEx);
-                    //var rAmount = /\s[0-9,\.]+$/g.exec(r);
-                    if (!rAmount) return "";
-
-                    var itemAmountTextDef = rAmount[0].trim();
-                    var itemAmount = TextToNumber(itemAmountTextDef);
-
-                    r = r.replace(ttLineCurrencyDesRegEx, " ")
-                            .replace(": ", ": HRK ");
-                    r = r.replace(itemAmountTextDef,
-                        itemAmountTextDef
-                            .replace(ttNumberDLMRegEx, "_$1")
-                            .replace(ttClearAmountRegEx, ".")
-                            .replace("_", ","));
-
-                    return r + " (" + ((itemAmount / total) * 100).toFixed(2).replace(".",",") + "%)";
-                });
-
-            return {
-                html: resultHtml
-            };
-        });
-
-        //redrawOnResize: false
-        //encodeHtml: true
-        //_renderer.encodeHtml: true
-
-        chart.option({
-            encodeHtml: false,
-            argumentAxis: {
-                label: {
-                    overlappingBehavior: "none"
-                }
+            if (i === arr.length - 1) {
+                lineArr.push(curLineText);
             }
         });
 
-        //chart.option({
-        //    argumentAxis: {
-        //valueMarginsEnabled: true,
-        //discreteAxisDivisionMode: "crossLabels",
-        //grid: {
-        //    visible: true
-        //},
-        //label: {
-        //customizeHint: function(e) {
-        //    return "customizeHint";
-        //},
-        //indentFromAxis: 1,
-        //staggeringSpacing: 0,
-        //overlappingBehavior: 'stagger',
-        //displayMode: 'rotate',
-        //rotationAngle: -20
-        //}
-        //});
-    }
+        //lineArr[0] = "<span>" + lineArr[0] + "</span>";
+        var resultText = "";
+        lineArr.forEach(function (item, i, arr) {
+            resultText = resultText + "<span class='chart-xaxis-label'>" + item + "</span>" + (i < arr.length - 1 ? "</br>" : "");
+        });
+        //resultText = resultText.replace("Upravni odjel", "UO");
+
+        return resultText;
+    });
+
+    //redrawOnResize: false
+    //encodeHtml: true
+    //_renderer.encodeHtml: true
+
+    chart.option({
+        encodeHtml: false,
+        argumentAxis: {
+            label: {
+                overlappingBehavior: "none"
+            }
+        }
+    });
+
+    //chart.option({
+    //    argumentAxis: {
+    //valueMarginsEnabled: true,
+    //discreteAxisDivisionMode: "crossLabels",
+    //grid: {
+    //    visible: true
+    //},
+    //label: {
+    //customizeHint: function(e) {
+    //    return "customizeHint";
+    //},
+    //indentFromAxis: 1,
+    //staggeringSpacing: 0,
+    //overlappingBehavior: 'stagger',
+    //displayMode: 'rotate',
+    //rotationAngle: -20
+    //}
+    //});
 }
+
+function CustomizeChartTooltip(chart, showAmountPercents) {
+
+    var tooltipCustomizeTooltip = chart.option('tooltip.customizeTooltip');
+    chart.option('tooltip.customizeTooltip', function (args) {
+        var originObj = $.proxy(tooltipCustomizeTooltip, args)(args);
+        var total = args.total;
+        var resultHtml = originObj.html.replace(ttLineRegEx,
+            function (r) {
+                var rAmount = r.match(ttLineAmountRegEx);
+                //var rAmount = /\s[0-9,\.]+$/g.exec(r);
+                if (!rAmount) return "";
+
+                var itemAmountTextDef = rAmount[0].trim();
+
+                r = r.replace(ttLineCurrencyDesRegEx, " ")
+                    .replace(": ", ": HRK ");
+                r = r.replace(itemAmountTextDef,
+                    itemAmountTextDef
+                    .replace(ttNumberDLMRegEx, "_$1")
+                    .replace(ttClearAmountRegEx, ".")
+                    .replace("_", ","));
+
+                if (showAmountPercents) {
+                    var itemAmount = TextToNumber(itemAmountTextDef);
+                    return r + " (" + ((itemAmount / total) * 100).toFixed(2).replace(".", ",") + "%)";
+                }
+
+                return r;
+            });
+
+        return {
+            html: resultHtml
+        };
+    });
+}
+
 
 // Must be replaced by internal localization mechanism
 function TextToNumber(text) {
