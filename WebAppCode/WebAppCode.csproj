@@ -183,6 +183,8 @@
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Images\Sheet.png" />
+    <Content Include="Pages\Dashboards\ProracunDashboardPage.aspx" />
+    <Content Include="Pages\Dashboards\VrijednostAndIznosDashboardPage.aspx" />
     <Content Include="Pages\SpreadSheetPage.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -250,6 +252,20 @@
     </Compile>
     <Compile Include="Models\Dto\RacuniPerState.cs" />
     <Compile Include="Models\TileItemData.cs" />
+    <Compile Include="Pages\Dashboards\ProracunDashboardPage.aspx.cs">
+      <DependentUpon>ProracunDashboardPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Dashboards\ProracunDashboardPage.aspx.designer.cs">
+      <DependentUpon>ProracunDashboardPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Dashboards\VrijednostAndIznosDashboardPage.aspx.cs">
+      <DependentUpon>VrijednostAndIznosDashboardPage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pages\Dashboards\VrijednostAndIznosDashboardPage.aspx.designer.cs">
+      <DependentUpon>VrijednostAndIznosDashboardPage.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SpreadSheetPage.aspx.cs">
       <DependentUpon>SpreadSheetPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

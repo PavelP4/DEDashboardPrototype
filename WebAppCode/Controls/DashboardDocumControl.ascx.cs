@@ -21,6 +21,8 @@ namespace WebAppCode.Controls
         public const string ProracunDashboardName = "ProracunDashboard";
         public const string VrijednostAndIznosDashboardName = "VrijednostAndIznosDashboard";
 
+        private string _initialDashboard;
+
         private IDashboardContainer Container
         {
             get { return (IDashboardContainer)Session["DashboardContainer"]; }
@@ -44,6 +46,12 @@ namespace WebAppCode.Controls
         {
             get { return ASPxDashboardDocum.Height.ToString(); }
             set { ASPxDashboardDocum.Height = new Unit(value); }
+        }
+
+        public string InitialDashboard
+        {
+            get { return _initialDashboard; }
+            set { _initialDashboard = value; }
         }
 
         #endregion
@@ -108,7 +116,7 @@ namespace WebAppCode.Controls
             s.JSProperties.Add("cpProracunDashboardName", ProracunDashboardName);
             s.JSProperties.Add("cpVrijednostAndIznosDashboardName", VrijednostAndIznosDashboardName);
 
-            s.JSProperties.Add("cpInitialDashboard", VrijednostAndIznosDashboardName);
+            s.JSProperties.Add("cpInitialDashboard", _initialDashboard);
 
             //s.JSProperties.Add("cpChart1Name", FirstDashboard.ChartDocumentsByDaysComponentName);
             //s.JSProperties.Add("cpChart2Name", FirstDashboard.ChartDocumentsByNamesComponentName);
