@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Dashboard>
+  <Title Text="New Dashboard2.1-4" />
+  <DataSources>
+    <SqlDataSource Name="CustomSqlQuery" ComponentName="DataSource1">
+      <Connection Name="msSqlConnection" FromAppConfig="true" />
+      <Query Type="CustomSqlQuery" Name="CustomSqlQuery">
+        <Sql>SELECT [minuta]
+      ,[korisnik]      
+      ,[nadleznost]
+      ,[dokument]
+      , 1 as onevalue
+  FROM [dbo].[dvwDnevnikRada]</Sql>
+      </Query>
+      <ConnectionOptions CloseConnection="true" />
+    </SqlDataSource>
+  </DataSources>
+  <Items>
+    <Chart ComponentName="chartDashboardItem1" Name="Chart 1" DataSource="DataSource1" DataMember="CustomSqlQuery">
+      <DataItems>
+        <Dimension DataMember="onevalue" DefaultId="DataItem0" />
+        <Measure DataMember="minuta" DefaultId="DataItem1" />
+        <Dimension DataMember="nadleznost" Name="qwe" SortByMeasure="DataItem1" TopNShowOthers="true" TopNMeasure="DataItem1" DefaultId="DataItem2" />
+      </DataItems>
+      <SeriesDimensions>
+        <SeriesDimension DefaultId="DataItem2" />
+      </SeriesDimensions>
+      <Arguments>
+        <Argument DefaultId="DataItem0" />
+      </Arguments>
+      <Panes>
+        <Pane Name="Pane 1">
+          <AxisY TitleVisible="false" />
+          <Series>
+            <Simple>
+              <Value DefaultId="DataItem1" />
+            </Simple>
+          </Series>
+        </Pane>
+      </Panes>
+      <ChartLegend OutsidePosition="TopRightVertical" />
+      <AxisX Visible="false" />
+    </Chart>
+  </Items>
+  <LayoutTree>
+    <LayoutGroup Weight="100">
+      <LayoutItem DashboardItem="chartDashboardItem1" Weight="100" />
+    </LayoutGroup>
+  </LayoutTree>
+</Dashboard>

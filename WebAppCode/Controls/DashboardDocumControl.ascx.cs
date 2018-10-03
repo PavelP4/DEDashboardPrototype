@@ -15,11 +15,9 @@ namespace WebAppCode.Controls
 {
     public partial class DashboardDocumControl : System.Web.UI.UserControl
     {
-        //public const string Dashboard1Name = "Dashboard1";
-        //public const string Dashboard2Name = "Dashboard2";
-        //public const string DashboardTilesPageName = "DashboardTilesPage";
         public const string ProracunDashboardName = "ProracunDashboard";
         public const string VrijednostAndIznosDashboardName = "VrijednostAndIznosDashboard";
+        public const string VrijemeObradeDashboardName = "VrijemeObradeDashboard";
 
         private string _initialDashboard;
 
@@ -91,6 +89,7 @@ namespace WebAppCode.Controls
 
                 Container.RegisterDashboard(ProracunDashboardName, typeof(ProracunDashboard));
                 Container.RegisterDashboard(VrijednostAndIznosDashboardName, typeof(VrijednostAndIznosDashboard));
+                Container.RegisterDashboard(VrijemeObradeDashboardName, typeof(VrijemeObradeDashboard));
 
 
                 //Container.ConfigureDashboards();
@@ -115,6 +114,7 @@ namespace WebAppCode.Controls
             //s.JSProperties.Add("cpDashboardTilesPageName", DashboardTilesPageName);
             s.JSProperties.Add("cpProracunDashboardName", ProracunDashboardName);
             s.JSProperties.Add("cpVrijednostAndIznosDashboardName", VrijednostAndIznosDashboardName);
+            s.JSProperties.Add("cpVrijemeObradeDashboardName", VrijemeObradeDashboardName);
 
             s.JSProperties.Add("cpInitialDashboard", _initialDashboard);
 
@@ -124,6 +124,8 @@ namespace WebAppCode.Controls
             //s.JSProperties.Add("cpWebPageWidgetName", TilesPageDashboard.WebPageTilesPageComponentName);
             s.JSProperties.Add("cpChartProracunskiPodaciName", ProracunDashboard.ChartProracunskiPodaciComponentName);
             s.JSProperties.Add("cpChartVrijednostAndIznosComponentName", VrijednostAndIznosDashboard.ChartVrijednostAndIznosComponentName);
+            s.JSProperties.Add("cpChartVrijemeObradeByNadleznostComponentName", VrijemeObradeDashboard.ChartVrijemeObradeByNadleznostComponentName);
+            s.JSProperties.Add("cpChartVrijemeObradeByRjesavateljComponentName", VrijemeObradeDashboard.ChartVrijemeObradeByRjesavateljComponentName);
 
             Dictionary<string, string> movementsMap = new Dictionary<string, string>();
             //movementsMap.Add("cpDashboard1Name.cpChart1Name", "cpDashboard2Name");

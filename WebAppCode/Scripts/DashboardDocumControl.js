@@ -23,6 +23,7 @@ function CustomizeWidgets(s, e) {
 
     CustomizeChartProracunskiPodaci(s, e);
     CustomizeChartChartVrijednostAndIznos(s, e);
+    CustomizeChartVrijemeObradeByNadleznost(s, e);
 }
 
 
@@ -43,6 +44,15 @@ function CustomizeChartChartVrijednostAndIznos(s, e) {
 
         CustomizeChartXLabels(chart, 0);
         CustomizeChartTooltip(chart, false);
+    }
+}
+
+function CustomizeChartVrijemeObradeByNadleznost(s, e) {
+    if (e.ItemName === s.cpChartVrijemeObradeByNadleznostComponentName) {
+
+        var chart = e.GetWidget();
+
+        //chart.option('tooltip.enabled', false);
     }
 }
 

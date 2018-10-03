@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using ASPxCustomDashboard.Core.Container;
+using ASPxCustomDashboard.Core.Enums;
 using ASPxCustomDashboard.Core.Providers;
 using DevExpress.DashboardCommon;
 using DevExpress.XtraExport.Helpers;
@@ -172,50 +173,30 @@ namespace ASPxCustomDashboard.Core.Dashboards
             {
                 DataSource = DataSource,
                 DataMember = queryName,
-                ColorDefinition = new ColorDefinition(Color.FromArgb(-13335345)),
+                ColorDefinition = new ColorDefinition(DashboardColors.LightBlue),
                 DimensionKeys = { new ColorSchemeDimensionKey(dimDef, "Realizacija - raspolozivo") }
             });
             Dashboard.ColorScheme.Add(new ColorSchemeEntry()
             {
                 DataSource = DataSource,
                 DataMember = queryName,
-                ColorDefinition = new ColorDefinition(Color.FromArgb(-13147221)),
+                ColorDefinition = new ColorDefinition(DashboardColors.Blue),
                 DimensionKeys = { new ColorSchemeDimensionKey(dimDef, "Realizacija - fakturirano placeno") }
             });
             Dashboard.ColorScheme.Add(new ColorSchemeEntry()
             {
                 DataSource = DataSource,
                 DataMember = queryName,
-                ColorDefinition = new ColorDefinition(Color.FromArgb(-2832069)),
+                ColorDefinition = new ColorDefinition(DashboardColors.Lemon),
                 DimensionKeys = { new ColorSchemeDimensionKey(dimDef, "Realizacija - fakturirano neplaceno") }
             });
             Dashboard.ColorScheme.Add(new ColorSchemeEntry()
             {
                 DataSource = DataSource,
                 DataMember = queryName,
-                ColorDefinition = new ColorDefinition(Color.FromArgb(-3055006)),
+                ColorDefinition = new ColorDefinition(DashboardColors.Grape),
                 DimensionKeys = { new ColorSchemeDimensionKey(dimDef, "Realizacija - angazirano") }
             });
-        }
-
-        private ComboBoxDashboardItem CreateComboBoxFilter(string queryName, string name, string field)
-        {
-            var cb = new ComboBoxDashboardItem();
-
-            cb.Name = name;
-            cb.ComboBoxType = ComboBoxDashboardItemType.Standard;
-            cb.DataSource = DataSource;
-            cb.DataMember = queryName;
-            cb.ShowCaption = true;
-            cb.EnableSearch = true;
-
-            cb.GetDataMembers().Add(field);
-
-            Dimension fdim = new Dimension(field);
-            fdim.Name = name;
-            cb.FilterDimensions.Add(fdim);
-
-            return cb;
         }
     }
 }

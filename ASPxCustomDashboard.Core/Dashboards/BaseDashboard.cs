@@ -92,5 +92,25 @@ namespace ASPxCustomDashboard.Core.Dashboards
         protected abstract void ConfigureDataSourceQueries();
 
         protected abstract void Configure();
+
+        protected virtual ComboBoxDashboardItem CreateComboBoxFilter(string queryName, string name, string field)
+        {
+            var cb = new ComboBoxDashboardItem();
+
+            cb.Name = name;
+            cb.ComboBoxType = ComboBoxDashboardItemType.Standard;
+            cb.DataSource = DataSource;
+            cb.DataMember = queryName;
+            cb.ShowCaption = true;
+            cb.EnableSearch = true;
+
+            cb.GetDataMembers().Add(field);
+
+            Dimension fdim = new Dimension(field);
+            fdim.Name = name;
+            cb.FilterDimensions.Add(fdim);
+
+            return cb;
+        }
     }
 }

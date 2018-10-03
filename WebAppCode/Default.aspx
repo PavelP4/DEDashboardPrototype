@@ -4,6 +4,7 @@
     <h2 class="page-header">Available dashboards for test</h2>
     <br>
     
-    <a class="dashboard-link" href="/Pages/Dashboards/ProracunDashboardPage.aspx">Dashboard 2.1-1</a>
-    <a class="dashboard-link" href="/Pages/Dashboards/VrijednostAndIznosDashboardPage.aspx">Dashboard 2.1-3</a>
+    <a class="dashboard-link" href="Pages/Dashboards/ProracunDashboardPage.aspx">Dashboard 2.1-1</a>
+    <a class="dashboard-link" href="Pages/Dashboards/VrijednostAndIznosDashboardPage.aspx">Dashboard 2.1-3</a>
+    <%--<a class="dashboard-link" href="/Pages/Dashboards/VrijemeObradeDashboardPage.aspx">Dashboard 2.1-4</a>--%>
 </asp:Content>

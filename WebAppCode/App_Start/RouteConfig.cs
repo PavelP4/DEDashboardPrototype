@@ -14,7 +14,7 @@ namespace WebAppCode
             settings.AutoRedirectMode = RedirectMode.Permanent;
             routes.EnableFriendlyUrls(settings);
 
-            //routes.MapPageRoute("Default_Page", "", "~/Pages/SpreadSheetPage.aspx");
+            routes.MapPageRoute("Default_Page", "", "~/Pages/Dashboards/VrijemeObradeDashboardPage.aspx");
         }
     }
 }

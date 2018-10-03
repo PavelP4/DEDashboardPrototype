@@ -76,12 +76,14 @@
     <Compile Include="Container\DashboardContainer.cs" />
     <Compile Include="Container\IDashboardContainer.cs" />
     <Compile Include="Dashboards\BaseDashboard.cs" />
+    <Compile Include="Dashboards\VrijemeObradeDashboard.cs" />
     <Compile Include="Dashboards\VrijednostAndIznosDashboard.cs" />
     <Compile Include="Dashboards\ProracunDashboard.cs" />
     <Compile Include="Dashboards\TilesPageDashboard.cs" />
     <Compile Include="Dashboards\FirstDashboard.cs" />
     <Compile Include="Dashboards\ICustomDashboard.cs" />
     <Compile Include="Dashboards\SecondDashboard.cs" />
+    <Compile Include="Enums\DashboardColors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DashboardConnectionStringsProvider.cs" />
   </ItemGroup>

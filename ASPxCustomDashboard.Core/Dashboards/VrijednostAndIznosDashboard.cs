@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using ASPxCustomDashboard.Core.Container;
+using ASPxCustomDashboard.Core.Enums;
 using ASPxCustomDashboard.Core.Providers;
 using DevExpress.DashboardCommon;
 
@@ -19,7 +20,8 @@ namespace ASPxCustomDashboard.Core.Dashboards
                                               izvori_sredstava,
                                               ekonomska_klasifikacija,
                                               korisnik,
-                                              oj_korisnika
+                                              oj_korisnika,
+                                              predmet_nabave
                                             FROM dbo.dvwRealizacijaPlanaNabave";
 
         public const string CustomSqlQueryName1 = "CustomSqlQuery1";
@@ -53,6 +55,7 @@ namespace ASPxCustomDashboard.Core.Dashboards
             ComboBoxDashboardItem cbIzvoriSredstavaFilter = CreateComboBoxFilter(CustomSqlQueryName1, "Izvori sredstava", "izvori_sredstava");
             ComboBoxDashboardItem cbEkonomskaKlasifikacijaFilter = CreateComboBoxFilter(CustomSqlQueryName1, "Ekonomska klasifikacija", "ekonomska_klasifikacija");
             ComboBoxDashboardItem cbKorisnikFilter = CreateComboBoxFilter(CustomSqlQueryName1, "Korisnik", "korisnik");
+            ComboBoxDashboardItem cbPredmetNabaveFilter = CreateComboBoxFilter(CustomSqlQueryName1, "Predmet nabave", "predmet_nabave");
             Dashboard.Items.Add(chartProracunskiPodaci);
             Dashboard.Items.Add(cbPozicijaFilter);
             Dashboard.Items.Add(cbRazdjelFilter);
@@ -62,22 +65,24 @@ namespace ASPxCustomDashboard.Core.Dashboards
             Dashboard.Items.Add(cbIzvoriSredstavaFilter);
             Dashboard.Items.Add(cbEkonomskaKlasifikacijaFilter);
             Dashboard.Items.Add(cbKorisnikFilter);
+            Dashboard.Items.Add(cbPredmetNabaveFilter);
 
 
             DashboardLayoutItem chartLayoutItem = new DashboardLayoutItem(chartProracunskiPodaci, 145);
 
             DashboardLayoutGroup filterGroupRow1 =
                 new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Horizontal, 50,
-                    new DashboardLayoutItem(cbPozicijaFilter, 25),
-                    new DashboardLayoutItem(cbProgramFilter, 25),
-                    new DashboardLayoutItem(cbProjektAktivnostFilter, 25),
-                    new DashboardLayoutItem(cbEkonomskaKlasifikacijaFilter, 25));
+                    new DashboardLayoutItem(cbPozicijaFilter, 20),
+                    new DashboardLayoutItem(cbProgramFilter, 20),
+                    new DashboardLayoutItem(cbProjektAktivnostFilter, 20),
+                    new DashboardLayoutItem(cbEkonomskaKlasifikacijaFilter, 20),
+                    new DashboardLayoutItem(cbKorisnikFilter, 20));
             DashboardLayoutGroup filterGroupRow2 =
                 new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Horizontal, 50,
                     new DashboardLayoutItem(cbRazdjelFilter, 25),
                     new DashboardLayoutItem(cbGlavaFilter, 25),
                     new DashboardLayoutItem(cbIzvoriSredstavaFilter, 25),
-                    new DashboardLayoutItem(cbKorisnikFilter, 25));
+                    new DashboardLayoutItem(cbPredmetNabaveFilter, 25));
 
             DashboardLayoutGroup filterGroup =
                 new DashboardLayoutGroup(DashboardLayoutGroupOrientation.Vertical, 55,
@@ -112,8 +117,8 @@ namespace ASPxCustomDashboard.Core.Dashboards
             chart.Arguments.Add(xDimension);
             
             ChartPane pane = new ChartPane();
-            pane.Series.Add(DefineSeries("planirana_vrijednost", queryName, "Planirana vrijednost", Color.FromArgb(-13335345)));
-            pane.Series.Add(DefineSeries("iznos_realizacije", queryName, "Iznos realizacije", Color.FromArgb(-13147221)));
+            pane.Series.Add(DefineSeries("planirana_vrijednost", queryName, "Planirana vrijednost", DashboardColors.LightBlue));
+            pane.Series.Add(DefineSeries("iznos_realizacije", queryName, "Iznos realizacije", DashboardColors.Blue));
             pane.PrimaryAxisY.TitleVisible = false;
             pane.PrimaryAxisY.Reverse = false;
 
@@ -145,26 +150,6 @@ namespace ASPxCustomDashboard.Core.Dashboards
             });
 
             return series;
-        }
-
-        private ComboBoxDashboardItem CreateComboBoxFilter(string queryName, string name, string field)
-        {
-            var cb = new ComboBoxDashboardItem();
-
-            cb.Name = name;
-            cb.ComboBoxType = ComboBoxDashboardItemType.Standard;
-            cb.DataSource = DataSource;
-            cb.DataMember = queryName;
-            cb.ShowCaption = true;
-            cb.EnableSearch = true;
-
-            cb.GetDataMembers().Add(field);
-
-            Dimension fdim = new Dimension(field);
-            fdim.Name = name;
-            cb.FilterDimensions.Add(fdim);
-
-            return cb;
         }
     }
 }
