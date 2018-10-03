@@ -186,6 +186,7 @@
     <Content Include="Pages\Dashboards\ProracunDashboardPage.aspx" />
     <Content Include="Pages\Dashboards\VrijednostAndIznosDashboardPage.aspx" />
     <Content Include="Pages\Dashboards\VrijemeObradeDashboardPage.aspx" />
+	<Content Include="Pages\SpreadSheetFinancialPlanPage.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\DashboardDocumControl.js" />
@@ -288,8 +289,8 @@
     <Compile Include="Pages\Dashboards\VrijemeObradeDashboardPage.aspx.designer.cs">
       <DependentUpon>VrijemeObradeDashboardPage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SpreadSheetPage.aspx.cs">
-      <DependentUpon>SpreadSheetPage.aspx</DependentUpon>
+    <Compile Include="Pages\SpreadSheetFinancialPlanPage.aspx.cs">
+      <DependentUpon>SpreadSheetFinancialPlanPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Pages\SpreadSheetFinancialPlanPage.aspx.designer.cs">
